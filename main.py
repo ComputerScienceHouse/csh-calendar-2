@@ -6,6 +6,8 @@ from pymongo import MongoClient
 import threading
 import time
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import uvicorn
 import os
 
@@ -51,12 +53,31 @@ else:
 
 app = FastAPI()
 
-@app.get('/events/{year}/{month}')
+app.mount('/static', StaticFiles(directory='web'), 'staticfiles')
+
+@app.get('/events/{year}/{month}') # Get events in one month
 async def get_events(year: int, month: int):
     events = list(mongo_collection.find({'start.expanded.year': year, 'start.expanded.month': month}))
     for e in events:
         del e['_id']
     return events
+
+@app.get('/events/{year}/{month}/{day}') # Get events on one day
+async def get_events_day(year: int, month: int, day: int):
+    events = list(mongo_collection.find({'start.expanded.year': year, 'start.expanded.month': month, 'start.expanded.date': day}))
+    for e in events:
+        del e['_id']
+    return events
+
+@app.get('/events/{eid}') # Get single event by ID
+async def get_event_by_id(eid: str):
+    event = mongo_collection.find_one({'id': eid})
+    del event['_id']
+    return event
+
+@app.get('/')
+async def get_index():
+    return FileResponse(os.path.join('web', 'index.html'))
 
 if __name__ == '__main__':
     # Load calendar and start update thread
@@ -69,6 +90,7 @@ if __name__ == '__main__':
         days_back=CONFIG['recordDaysBack']
     )
 
+    # Launch cache update thread
     info('Starting update thread.')
     threading.Thread(
         name='update-calendar-loop', 

@@ -130,4 +130,4 @@ dmypy.json
 
 config.json
 keys/
-web/
+node_modules/

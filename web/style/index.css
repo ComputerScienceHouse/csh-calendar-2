@@ -1,0 +1,43 @@
+:root {
+    --pdark: #7c0052;
+    --p: #b0197e;
+    --plite: #e555ad;
+    --ptext: #ffffff;
+
+    --bdark: #babdbe;
+    --b: #eceff1;
+    --blite: #ffffff;
+    --btext: #000000;
+    font-family: 'Roboto', sans-serif;
+}
+
+.top-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    height: 5vh;
+    width: 100%;
+    background-color: var(--p);
+}
+.top-bar img {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: inline-block;
+    width: calc(5vh - 16px);
+    height: calc(5vh - 16px);
+}
+.top-bar .title {
+    position: absolute;
+    top: 50%;
+    left: 5vh;
+    transform: translate(0, -50%);
+    color: var(--ptext);
+    font-weight: bold;
+}
+
+.shadow {
+    -webkit-box-shadow: 0px 0px 15px 0px #A2A2A2; 
+    box-shadow: 0px 0px 15px 0px #A2A2A2;
+}

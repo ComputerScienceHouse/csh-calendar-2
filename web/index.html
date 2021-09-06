@@ -9,13 +9,8 @@
     <!-- External Resources -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"> <!-- Material Icons -->
-    <script 
-        src="https://code.jquery.com/jquery-3.6.0.min.js" 
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
-        crossorigin="anonymous"
-    ></script> <!-- jQuery -->
-    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <!-- React -->
 
     <!-- Internal Resources -->
@@ -26,6 +21,33 @@
 </head>
 <body>
     <div id="topbar-root"></div>
-    <div id='calendar-root' class='shadow'></div>
+    <div id='calendar-root' class='shadow-small'>
+        <div class='day-names'>
+            <div class='day-name'>
+                <span>Sunday</span>
+            </div><div class='day-name'>
+                <span>Monday</span>
+            </div><div class='day-name'>
+                <span>Tuesday</span>
+            </div><div class='day-name'>
+                <span>Wednesday</span>
+            </div><div class='day-name'>
+                <span>Thursday</span>
+            </div><div class='day-name'>
+                <span>Friday</span>
+            </div><div class='day-name'>
+                <span>Saturday</span>
+            </div>
+        </div>
+        <div class='day-area'>
+            
+        </div>
+    </div>
+    <button class='nav-button next shadow-small'>
+        <span class="material-icons">chevron_right</span>
+    </button>
+    <button class='nav-button previous shadow-small'>
+        <span class="material-icons">chevron_left</span>
+    </button>
 </body>
 </html>

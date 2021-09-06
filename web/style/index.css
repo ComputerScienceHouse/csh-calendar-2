@@ -17,14 +17,14 @@
     left: 0px;
     display: inline-block;
     width: 100%;
-    height: 5vh;
+    height: 48px;
 }
 .top-bar {
     position: absolute;
     top: 0px;
     left: 0px;
     display: inline-block;
-    height: 5vh;
+    height: 48px;
     width: 100%;
     background-color: var(--p);
 }
@@ -33,13 +33,13 @@
     top: 8px;
     left: 8px;
     display: inline-block;
-    width: calc(5vh - 16px);
-    height: calc(5vh - 16px);
+    width: 32px;
+    height: 32px;
 }
 .top-bar .title {
     position: absolute;
-    top: 50%;
-    left: 5vh;
+    top: 55%;
+    left: 48px;
     transform: translate(0, -50%);
     color: var(--ptext);
     font-size: 20px;
@@ -47,7 +47,7 @@
 
 #calendar-root {
     position: absolute;
-    top: calc(5vh + 20px);
+    top: 68px;
     left: 5%;
     display: inline-block;
     height: calc(95vh - 40px);
@@ -57,45 +57,266 @@
     overflow-y: auto;
 }
 
+.day .day-name {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: var(--btext);
+    opacity: 0.5;
+}
+.day .day-number {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: var(--btext);
+    opacity: 0.5;
+}
+
 @media screen and (max-width: 1100px) {
-    .calendar-day {
-        position: relative;
-        margin: 0px;
-        padding: 10px;
+    #calendar-root .day-area .day-table.desktop {
+        display: none;
+    }
+    #calendar-root .day-area .day-table.mobile {
+        display: inline-block;
+    }
+    #calendar-root {
+        height: calc((100vh - 48px) - 98px);
+    }
+    #calendar-root .day-area {
+        position: absolute;
+        top: -1px;
+        left: 0px;
         display: inline-block;
         width: 100%;
-        height: 120px;
-        box-sizing: border-box;
-        border: 1px solid var(--bdark);
-        border-top: none;
-        border-left: none;
+        height: calc(100% + 1px);
     }
-    .calendar-day.non-day {
+    #calendar-root .day-names {
         display: none;
+    }
+    .nav-button {
+        position: absolute;
+        bottom: -10px;
+        display: inline-block;
+        width: 40%;
+        height: 48px;
+        transform: translate(0, -50%);
+        background-color: var(--b);
+        transition: background-color 0.2s;
+        color: var(--btext);
+        font-size: 24px;
+        user-select: none;
+        -moz-user-select: none;
+        border-radius: 24px;
+        border: none;
+        cursor: pointer;
+    }
+    .nav-button.next {
+        right: 5%;
+    }
+    .nav-button.previous {
+        left: 5%;
     }
 }
 @media screen and (min-width: 1101px) {
-    .calendar-day {
-        position: relative;
-        margin: 0px;
-        padding: 10px;
+    #calendar-root .day-area .day-table.desktop {
         display: inline-block;
-        width: calc(100% / 7);
-        min-height: 120px;
-        height: calc(100% / 5);
-        box-sizing: border-box;
-        border: 1px solid var(--bdark);
-        border-top: none;
-        border-left: none;
-        float: left;
     }
+    #calendar-root .day-area .day-table.mobile {
+        display: none;
+    }
+    #calendar-root .day-area {
+        position: absolute;
+        top: 48px;
+        left: 0px;
+        display: inline-block;
+        width: 100%;
+        height: calc(100% - 48px);
+    }
+    #calendar-root .day-names {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        display: inline-block;
+        width: 100%;
+        height: 48px;
+        user-select: none;
+        -moz-user-select: none;
+    }
+    .nav-button {
+        position: absolute;
+        top: 50%;
+        display: inline-block;
+        width: 2vw;
+        height: 50vh;
+        transform: translate(0, -50%);
+        background-color: var(--b);
+        transition: background-color 0.2s;
+        color: var(--btext);
+        font-size: 24px;
+        user-select: none;
+        -moz-user-select: none;
+        border-radius: 1vw;
+        border: none;
+        cursor: pointer;
+    }
+    .nav-button.next {
+        right: 1.5%;
+    }
+    .nav-button.previous {
+        left: 1.5%;
+    }
+}
+#calendar-root .day-names .day-name {
+    position: relative;
+    display: inline-block;
+    width: calc(100% / 7);
+    height: 48px;
+    background-color: var(--p);
+    color: var(--ptext);
+    font-size: 18px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+#calendar-root .day-names .day-name span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#calendar-root .day-area .day-table.desktop {
+    width: calc(100% + 1px);
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: -1px;
+    padding: 0px;
+    border-collapse: collapse;
+}
+#calendar-root .day-area .day-table.desktop tbody {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    border-collapse: collapse;
+}
+#calendar-root .day-area .day-table.desktop tbody tr {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+#calendar-root .day-area .day-table.desktop tbody tr td {
+    display: inline-block;
+    width: calc(100% / 7);
+    height: 100%;
+    margin: 0px;
+    box-sizing: border-box;
+    border: 1px solid var(--bdark);
+    border-bottom: 0px;
+    border-right: 0px;
+    position: relative;
+}
+#calendar-root .day-area .day-table.desktop tbody tr td .day-name {
+    display: none;
+}
+
+#calendar-root .day-area .day-table.mobile {
+    width: calc(100% + 1px);
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: -1px;
+    padding: 0px;
+    border-collapse: collapse;
+}
+#calendar-root .day-area .day-table.mobile tbody {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    border-collapse: collapse;
+}
+#calendar-root .day-area .day-table.mobile tbody tr {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    padding: 0px;
+    margin: 0px;
+}
+#calendar-root .day-area .day-table.mobile tbody tr td {
+    display: inline-block;
+    width: 100%;
+    height: 160px;
+    margin: 0px;
+    box-sizing: border-box;
+    border: 1px solid var(--bdark);
+    border-bottom: 0px;
+    border-right: 0px;
+    position: relative;
+}
+#calendar-root .day-area .day-table.mobile tbody tr:first-child td {
+    border-top: none;
+}
+#calendar-root .day-area .day-table.mobile tbody tr td.past {
+    display: none;
+    height: 0px;
+}
+
+.day.today .day-number {
+    background-color: var(--p);
+    color: var(--ptext);
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    opacity: 1;
+    top: 5px;
+    left: 5px;
+    -webkit-box-shadow: 0px 0px 3px 0px #a2a2a2a2; 
+    box-shadow: 0px 0px 3px 0px #A2A2A2a2;
+}
+.day .day-number, .day .day-name {
+    user-select: none;
+    -moz-user-select: none;
+}
+.day.today .day-number > span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.day.buffer {
+    background-color: var(--b);
 }
 
 .shadow {
     -webkit-box-shadow: 0px 0px 15px 0px #A2A2A2; 
     box-shadow: 0px 0px 15px 0px #A2A2A2;
 }
+.shadow-small {
+    -webkit-box-shadow: 0px 0px 3px 0px #a2a2a2a2; 
+    box-shadow: 0px 0px 3px 0px #A2A2A2a2;
+}
 
 body {
     overflow: hidden;
+}
+.nav-button span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.nav-button:hover {
+    background-color: var(--bdark);
 }

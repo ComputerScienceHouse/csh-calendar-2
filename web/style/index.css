@@ -320,3 +320,55 @@ body {
 .nav-button:hover {
     background-color: var(--bdark);
 }
+
+.date-input {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    display: inline-block;
+    width: 20%;
+    min-width: 225px;
+    height: calc(100% - 10px);
+}
+.date-input select {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    width: 35%;
+    height: 100%;
+    border-radius: 5px;
+    background-color: var(--pdark);
+    color: var(--ptext);
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.date-input input {
+    position: absolute;
+    top: 0px;
+    left: calc(35% + 5px);
+    display: inline-block;
+    width: calc(65% - 5px);
+    height: 100%;
+    border-radius: 5px;
+    background-color: var(--pdark);
+    color: var(--ptext);
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    transition: opacity 0.2s;
+    text-align: center;
+}
+.date-input input:focus {
+    outline: none;
+}
+.date-input *:hover, .date-input *:focus {
+    opacity: 0.8;
+}

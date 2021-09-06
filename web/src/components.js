@@ -7,15 +7,6 @@ function getWeekDay(month, year, day) { // Get the day of the week of the first 
 
 var DAYS = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri', 'Sat.'];
 
-function TopBar(props) {
-    return (
-        <div className="top-bar shadow">
-            <img src={props.src} alt={props.alt}></img>
-            <span className="title">{props.title}</span>
-        </div>
-    );
-}
-
 function condition(c, t, f) {
     if (c) {
         return t;

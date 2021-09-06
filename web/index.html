@@ -20,7 +20,29 @@
     <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <div id="topbar-root"></div>
+    <div id="topbar-root">
+        <div class="top-bar shadow">
+            <img src="static/index.svg" alt="CSH Logo">
+            <span class="title">Events</span>
+            <div class="date-input">
+                <select class="date-input-month">
+                    <option value="january">Jan.</option>
+                    <option value="february">Feb.</option>
+                    <option value="march">Mar.</option>
+                    <option value="april">Apr.</option>
+                    <option value="may">May</option>
+                    <option value="june">Jun.</option>
+                    <option value="july">Jul.</option>
+                    <option value="august">Aug.</option>
+                    <option value="september">Sep.</option>
+                    <option value="october">Oct.</option>
+                    <option value="november">Nov.</option>
+                    <option value="december">Dec.</option>
+                </select>
+                <input class='date-input-year'>
+            </div>
+        </div>
+    </div>
     <div id='calendar-root' class='shadow-small'>
         <div class='day-names'>
             <div class='day-name'>

@@ -10,34 +10,6 @@ function getWeekDay(month, year, day) {
 
 var DAYS = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri', 'Sat.'];
 
-function TopBar(props) {
-    return React.createElement(
-        'div',
-        { className: 'top-bar shadow', __source: {
-                fileName: _jsxFileName,
-                lineNumber: 12
-            },
-            __self: this
-        },
-        React.createElement('img', { src: props.src, alt: props.alt, __source: {
-                fileName: _jsxFileName,
-                lineNumber: 13
-            },
-            __self: this
-        }),
-        React.createElement(
-            'span',
-            { className: 'title', __source: {
-                    fileName: _jsxFileName,
-                    lineNumber: 14
-                },
-                __self: this
-            },
-            props.title
-        )
-    );
-}
-
 function condition(c, t, f) {
     if (c) {
         return t;
@@ -52,7 +24,7 @@ function Day(props) {
     if (props.day < 1 || props.day > maxDays) {
         return React.createElement('td', { className: 'day buffer', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 31
+                lineNumber: 22
             },
             __self: this
         });
@@ -64,7 +36,7 @@ function Day(props) {
             'td',
             { className: 'day' + condition(currentDate.getFullYear() == today.getFullYear() && currentDate.getMonth() == today.getMonth() && currentDate.getDate() == today.getDate(), ' today', '') + condition(props.day < today.getDate() && currentDate.getMonth() == today.getMonth() && currentDate.getFullYear() == today.getFullYear(), ' past', ''), date: currentDate.getTime(), day: currentDate.getDate(), __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 40
+                    lineNumber: 31
                 },
                 __self: this
             },
@@ -72,7 +44,7 @@ function Day(props) {
                 'span',
                 { className: 'day-number', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 49
+                        lineNumber: 40
                     },
                     __self: this
                 },
@@ -81,7 +53,7 @@ function Day(props) {
                     {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 49
+                            lineNumber: 40
                         },
                         __self: this
                     },
@@ -92,7 +64,7 @@ function Day(props) {
                 'span',
                 { className: 'day-name', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 50
+                        lineNumber: 41
                     },
                     __self: this
                 },
@@ -120,7 +92,7 @@ function CalendarDays(props) {
                 day: currentDay,
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 67
+                    lineNumber: 58
                 },
                 __self: this
             }));
@@ -133,7 +105,7 @@ function CalendarDays(props) {
             'tr',
             { style: calRowStyle, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 77
+                    lineNumber: 68
                 },
                 __self: this
             },
@@ -146,7 +118,7 @@ function CalendarDays(props) {
         'table',
         { className: 'day-table desktop', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 84
+                lineNumber: 75
             },
             __self: this
         },
@@ -155,7 +127,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 85
+                    lineNumber: 76
                 },
                 __self: this
             },
@@ -170,7 +142,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 94
+                    lineNumber: 85
                 },
                 __self: this
             },
@@ -180,7 +152,7 @@ function CalendarDays(props) {
                 day: day,
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 95
+                    lineNumber: 86
                 },
                 __self: this
             })
@@ -190,7 +162,7 @@ function CalendarDays(props) {
         'table',
         { className: 'day-table mobile', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 104
+                lineNumber: 95
             },
             __self: this
         },
@@ -199,7 +171,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 105
+                    lineNumber: 96
                 },
                 __self: this
             },

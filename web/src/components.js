@@ -15,7 +15,13 @@ function condition(c, t, f) {
     }
 }
 
-function Day(props) { // year, month, day
+function Day(props) { // year, month, day, events
+    if (!props.events) {
+        var events = [];
+    } else {
+        var events = JSON.parse(props.events);
+    }
+    console.log(events, props.day);
     var maxDays = daysInMonth(props.month, props.year);
     if (props.day < 1 || props.day > (maxDays)) {
         return (
@@ -44,7 +50,8 @@ function Day(props) { // year, month, day
     }
 }
 
-function CalendarDays(props) { // month, year
+function CalendarDays(props) { // month, year, events
+    var events = JSON.parse(props.events);
     var days = daysInMonth(props.month, props.year);
     var firstDayWeekDay = getWeekDay(props.month, props.year, 1);
     
@@ -59,6 +66,7 @@ function CalendarDays(props) { // month, year
                 year={props.year}
                 month={props.month}
                 day={currentDay}
+                events={JSON.stringify(events[currentDay])}
             />);
             currentDay++;
         }
@@ -87,6 +95,7 @@ function CalendarDays(props) { // month, year
                     year={props.year}
                     month={props.month}
                     day={day}
+                    events={JSON.stringify(events[day])}
                 />
             </tr>
         );

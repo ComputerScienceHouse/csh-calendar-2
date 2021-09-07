@@ -2,7 +2,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import datetime, timedelta, date
 import pytz
-from concurrent.futures import ThreadPoolExecutor
+import time, hashlib
 
 class Calendar:
     def __init__(self, credentials_file, calendar, collection, timezone='US/Eastern', days_back=50):
@@ -27,6 +27,8 @@ class Calendar:
             timeMax=pytz.timezone(self.timezone).localize(datetime.now() + timedelta(days=1000)).isoformat(),
             maxResults=9000
         ).execute()
+
+        cycleid = hashlib.sha256(str(time.time()).encode('utf-8')).hexdigest()
         for event in calendar['items']:
             expanded_event = event.copy()
             if 'dateTime' in event['start'].keys():
@@ -40,6 +42,7 @@ class Calendar:
                     'minute': end_dt.minute,
                     'second': end_dt.second
                 }
+                expanded_event['end']['timestamp'] = end_dt.timestamp()
                 expanded_event['start']['expanded'] = {
                     'year': start_dt.year,
                     'month': start_dt.month,
@@ -48,6 +51,7 @@ class Calendar:
                     'minute': start_dt.minute,
                     'second': start_dt.second
                 }
+                expanded_event['start']['timestamp'] = start_dt.timestamp()
             else:
                 start_dt = date.fromisoformat(event['start']['date'])
                 end_dt = date.fromisoformat(event['end']['date'])
@@ -59,6 +63,7 @@ class Calendar:
                     'minute': 59,
                     'second': 59
                 }
+                expanded_event['end']['timestamp'] = datetime(end_dt.year, end_dt.month, end_dt.day, 0, 0, 0).timestamp()
                 expanded_event['start']['expanded'] = {
                     'year': start_dt.year,
                     'month': start_dt.month,
@@ -67,5 +72,30 @@ class Calendar:
                     'minute': 0,
                     'second': 0
                 }
+                expanded_event['start']['timestamp'] = datetime(start_dt.year, start_dt.month, start_dt.day, 0, 0, 0).timestamp()
+            if not 'location' in expanded_event:
+                expanded_event['location'] = None
+            if not 'description' in expanded_event:
+                expanded_event['description'] = None
+            if all([expanded_event['start']['expanded'][i] == expanded_event['end']['expanded'][i] for i in ['year', 'month', 'date']]):
+                expanded_event['days'] = [
+                    {i:expanded_event['start']['expanded'][i] for i in ['year', 'month', 'date']}
+                ]
+                expanded_event['days'][0]['day'] = expanded_event['days'][0]['date']
+                del expanded_event['days'][0]['date']
+            else:
+                td = date(*[
+                    expanded_event['end']['expanded'][i] for i in ['year', 'month', 'date']
+                ]) - date(*[
+                    expanded_event['start']['expanded'][i] for i in ['year', 'month', 'date']
+                ])
+                days = td.days+1
+                expanded_event['days'] = [{
+                    k:getattr((
+                        date(*[expanded_event['start']['expanded'][j] for j in ['year', 'month', 'date']]) + timedelta(days=i)
+                    ), k) for k in ['year', 'month', 'day']
+                } for i in range(days)]
+            expanded_event['cycleId'] = cycleid
             self.collection.replace_one({'id': event['id']}, expanded_event, upsert=True)
+        self.collection.delete_many({'cycleId': {'$not': {'$eq': cycleid}}})
         

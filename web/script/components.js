@@ -19,12 +19,18 @@ function condition(c, t, f) {
 }
 
 function Day(props) {
-    // year, month, day
+    // year, month, day, events
+    if (!props.events) {
+        var events = [];
+    } else {
+        var events = JSON.parse(props.events);
+    }
+    console.log(events, props.day);
     var maxDays = daysInMonth(props.month, props.year);
     if (props.day < 1 || props.day > maxDays) {
         return React.createElement('td', { className: 'day buffer', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 22
+                lineNumber: 28
             },
             __self: this
         });
@@ -36,7 +42,7 @@ function Day(props) {
             'td',
             { className: 'day' + condition(currentDate.getFullYear() == today.getFullYear() && currentDate.getMonth() == today.getMonth() && currentDate.getDate() == today.getDate(), ' today', '') + condition(props.day < today.getDate() && currentDate.getMonth() == today.getMonth() && currentDate.getFullYear() == today.getFullYear(), ' past', ''), date: currentDate.getTime(), day: currentDate.getDate(), __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 31
+                    lineNumber: 37
                 },
                 __self: this
             },
@@ -44,7 +50,7 @@ function Day(props) {
                 'span',
                 { className: 'day-number', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 40
+                        lineNumber: 46
                     },
                     __self: this
                 },
@@ -53,7 +59,7 @@ function Day(props) {
                     {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 40
+                            lineNumber: 46
                         },
                         __self: this
                     },
@@ -64,7 +70,7 @@ function Day(props) {
                 'span',
                 { className: 'day-name', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 41
+                        lineNumber: 47
                     },
                     __self: this
                 },
@@ -75,7 +81,8 @@ function Day(props) {
 }
 
 function CalendarDays(props) {
-    // month, year
+    // month, year, events
+    var events = JSON.parse(props.events);
     var days = daysInMonth(props.month, props.year);
     var firstDayWeekDay = getWeekDay(props.month, props.year, 1);
 
@@ -90,9 +97,10 @@ function CalendarDays(props) {
                 year: props.year,
                 month: props.month,
                 day: currentDay,
+                events: JSON.stringify(events[currentDay]),
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 58
+                    lineNumber: 65
                 },
                 __self: this
             }));
@@ -105,7 +113,7 @@ function CalendarDays(props) {
             'tr',
             { style: calRowStyle, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 68
+                    lineNumber: 76
                 },
                 __self: this
             },
@@ -118,7 +126,7 @@ function CalendarDays(props) {
         'table',
         { className: 'day-table desktop', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 75
+                lineNumber: 83
             },
             __self: this
         },
@@ -127,7 +135,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 76
+                    lineNumber: 84
                 },
                 __self: this
             },
@@ -142,7 +150,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 85
+                    lineNumber: 93
                 },
                 __self: this
             },
@@ -150,9 +158,10 @@ function CalendarDays(props) {
                 year: props.year,
                 month: props.month,
                 day: day,
+                events: JSON.stringify(events[day]),
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 86
+                    lineNumber: 94
                 },
                 __self: this
             })
@@ -162,7 +171,7 @@ function CalendarDays(props) {
         'table',
         { className: 'day-table mobile', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 95
+                lineNumber: 104
             },
             __self: this
         },
@@ -171,7 +180,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 96
+                    lineNumber: 105
                 },
                 __self: this
             },

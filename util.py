@@ -5,7 +5,7 @@ import pytz
 import time, hashlib
 
 class Calendar:
-    def __init__(self, credentials_file, calendar, collection, timezone='US/Eastern', days_back=50):
+    def __init__(self, credentials_file, calendar, collection, timezone='US/Eastern', days_back=50, day_cutoff=2):
         SCOPES = ['https://www.googleapis.com/auth/calendar']
         SERVICE_ACCOUNT_FILE = credentials_file
 
@@ -16,6 +16,7 @@ class Calendar:
         self.timezone = timezone
         self.days_back = days_back
         self.collection = collection
+        self.cutoff = day_cutoff
         print(self.collection.name)
     
     def load_events_to_mongodb(self):
@@ -52,6 +53,7 @@ class Calendar:
                     'second': start_dt.second
                 }
                 expanded_event['start']['timestamp'] = start_dt.timestamp()
+                expanded_event['allDay'] = False
             else:
                 start_dt = date.fromisoformat(event['start']['date'])
                 end_dt = date.fromisoformat(event['end']['date'])
@@ -59,9 +61,9 @@ class Calendar:
                     'year': end_dt.year,
                     'month': end_dt.month,
                     'date': end_dt.day,
-                    'hour': 23,
-                    'minute': 59,
-                    'second': 59
+                    'hour': 0,
+                    'minute': 0,
+                    'second': 0
                 }
                 expanded_event['end']['timestamp'] = datetime(end_dt.year, end_dt.month, end_dt.day, 0, 0, 0).timestamp()
                 expanded_event['start']['expanded'] = {
@@ -73,6 +75,7 @@ class Calendar:
                     'second': 0
                 }
                 expanded_event['start']['timestamp'] = datetime(start_dt.year, start_dt.month, start_dt.day, 0, 0, 0).timestamp()
+                expanded_event['allDay'] = True
             if not 'location' in expanded_event:
                 expanded_event['location'] = None
             if not 'description' in expanded_event:
@@ -95,6 +98,8 @@ class Calendar:
                         date(*[expanded_event['start']['expanded'][j] for j in ['year', 'month', 'date']]) + timedelta(days=i)
                     ), k) for k in ['year', 'month', 'day']
                 } for i in range(days)]
+                if expanded_event['end']['expanded']['hour'] <= self.cutoff and len(expanded_event['days']):
+                    del expanded_event['days'][len(expanded_event['days']) - 1]
             expanded_event['cycleId'] = cycleid
             self.collection.replace_one({'id': event['id']}, expanded_event, upsert=True)
         self.collection.delete_many({'cycleId': {'$not': {'$eq': cycleid}}})

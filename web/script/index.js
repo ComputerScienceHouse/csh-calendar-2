@@ -1,6 +1,7 @@
 var _jsxFileName = 'src/index.js';
 var DATE = new Date(Date.now());
 var MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+var DATA = {};
 
 function setDate(date) {
     document.querySelector('.date-input-month').value = MONTHS[date.getMonth()];
@@ -10,13 +11,14 @@ function setDate(date) {
 function doDayRender(date) {
     fetch('/events/' + date.getFullYear() + '/' + (1 + date.getMonth())).then(function (data) {
         data.json().then(function (data) {
+            DATA = data;
             ReactDOM.render(React.createElement(CalendarDays, {
                 month: date.getMonth(),
                 year: date.getFullYear(),
                 events: JSON.stringify(data),
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 25
+                    lineNumber: 27
                 },
                 __self: this
             }), document.querySelector('#calendar-root .day-area'));
@@ -54,5 +56,17 @@ window.addEventListener('load', function () {
         DATE = new Date(DATE.setFullYear(Number(this.value)));
         doDayRender(DATE);
         setDate(DATE);
+    });
+    window.addEventListener('resize', function () {
+        ReactDOM.render(React.createElement(CalendarDays, {
+            month: DATE.getMonth(),
+            year: DATE.getFullYear(),
+            events: JSON.stringify(DATA),
+            __source: {
+                fileName: _jsxFileName,
+                lineNumber: 68
+            },
+            __self: this
+        }), document.querySelector('#calendar-root .day-area'));
     });
 });

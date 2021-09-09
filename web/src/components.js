@@ -15,13 +15,57 @@ function condition(c, t, f) {
     }
 }
 
-function Day(props) { // year, month, day, events
+function timestr(hours, minutes) {
+    if (hours == 12) {
+        return hours.toString() + condition(minutes != 0, ':' + condition(minutes < 10, '0', '') + minutes.toString(), '') + ' PM';
+    }
+    if (hours == 0) {
+        return "12" + condition(minutes != 0, ':' + condition(minutes < 10, '0', '') + minutes.toString(), '') + ' AM';
+    }
+    if (hours > 12) {
+        return (hours - 12).toString() + condition(minutes != 0, ':' + condition(minutes < 10, '0', '') + minutes.toString(), '') + ' PM';
+    } else {
+        return hours.toString() + condition(minutes != 0, ':' + condition(minutes < 10, '0', '') + minutes.toString(), '') + ' AM';
+    }
+}
+
+function Event(props) { // year, month, day, data
+    var event = props.data;
+    var classes = ['event'];
+    if (event.allDay) { classes.push('all-day-event'); }
+    if (event.days.length > 1) { classes.push('multi-day-event'); classes.push('shadow-small'); }
+    if (event.days.length > 1 && (
+        props.year == event.days[0].year &&
+        props.month + 1 == event.days[0].month &&
+        props.day == event.days[0].day
+    )) { classes.push('multi-start'); }
+    if (event.days.length > 1 && (
+        props.year == event.days[event.days.length - 1].year &&
+        props.month + 1 == event.days[event.days.length - 1].month &&
+        props.day == event.days[event.days.length - 1].day
+    )) { classes.push('multi-end'); }
+    var title = condition(
+        event.allDay, '', condition(
+            event.days.length > 1 && !(
+                props.year == event.days[0].year &&
+                props.month + 1 == event.days[0].month &&
+                props.day == event.days[0].day
+            ), '', timestr(event.start.expanded.hour, event.start.expanded.minute) + ' - '
+        )
+    ) + event.summary;
+    return (<span className={classes.join(' ')} data-id={event.id}>
+        <span className="arrow-start material-icons">chevron_left</span>
+        <span className="event-title">{title}<span className="overflow-shroud"></span></span>
+        <span className="arrow-end material-icons">chevron_right</span>
+    </span>);
+}
+
+function Day(props) { // year, month, day, events, dayHeight
     if (!props.events) {
         var events = [];
     } else {
         var events = JSON.parse(props.events);
     }
-    console.log(events, props.day);
     var maxDays = daysInMonth(props.month, props.year);
     if (props.day < 1 || props.day > (maxDays)) {
         return (
@@ -33,6 +77,29 @@ function Day(props) { // year, month, day, events
         var currentDate = new Date(props.year, props.month, props.day);
         var today = new Date(Date.now());
         today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        var event_elements = [];
+        var finalEvent_elements = [];
+        for (e of events) {
+            var eobj = <Event
+                year={props.year}
+                month={props.month}
+                day={props.day}
+                data={e}
+            />;
+            if (e.allDay || e.days.length > 1) {
+                finalEvent_elements.push(eobj);
+            } else {
+                event_elements.push(eobj);
+            }
+        }
+        for (e of event_elements) {
+            finalEvent_elements.push(e);
+        }
+
+        var original_length = finalEvent_elements.length;
+        if (finalEvent_elements.length * 20 > props.dayHeight - 20) {
+            finalEvent_elements = finalEvent_elements.slice(0, Math.floor(props.dayHeight / 20) - 2);
+        }
         return (
             <td className={'day' + condition((
                 currentDate.getFullYear() == today.getFullYear() && 
@@ -42,9 +109,15 @@ function Day(props) { // year, month, day, events
                 props.day < today.getDate() && 
                 currentDate.getMonth() == today.getMonth() && 
                 currentDate.getFullYear() == today.getFullYear()
-            ), ' past', '')} date={currentDate.getTime()} day={currentDate.getDate()}>
+            ), ' past', '') + condition(
+                original_length > finalEvent_elements.length, ' incomplete', ''
+            )} date={currentDate.getTime()} day={currentDate.getDate()}>
                 <span className="day-number"><span>{props.day}</span></span>
                 <span className="day-name">{DAYS[currentDate.getDay()]}</span>
+                <div className="day-events">
+                    {finalEvent_elements}
+                    <span className="incomplete-number">+{original_length - finalEvent_elements.length} more.</span>
+                </div>
             </td>
         );
     }
@@ -58,6 +131,12 @@ function CalendarDays(props) { // month, year, events
     var numRows = Math.ceil((firstDayWeekDay + days) / 7);
     var calendarRows = [];
 
+    if (window.innerWidth <= 1100) {
+        var dayHeight = 115;
+    } else {
+        var dayHeight = Math.floor(((window.innerHeight * 0.95) - 88) / numRows) - 45;
+    }
+
     var currentDay = -firstDayWeekDay + 1;
     for (var row = 0; row < numRows; row++) {
         var rowItems = [];
@@ -67,6 +146,7 @@ function CalendarDays(props) { // month, year, events
                 month={props.month}
                 day={currentDay}
                 events={JSON.stringify(events[currentDay])}
+                dayHeight={dayHeight}
             />);
             currentDay++;
         }
@@ -96,6 +176,7 @@ function CalendarDays(props) { // month, year, events
                     month={props.month}
                     day={day}
                     events={JSON.stringify(events[day])}
+                    dayHeight={115}
                 />
             </tr>
         );

@@ -13,6 +13,7 @@ var MONTHS = [
     'november',
     'december'
 ];
+var DATA = {};
 
 function setDate(date) {
     document.querySelector('.date-input-month').value = MONTHS[date.getMonth()];
@@ -22,6 +23,7 @@ function setDate(date) {
 function doDayRender(date) {
     fetch('/events/'+date.getFullYear()+'/'+(1+date.getMonth())).then(function (data) {
         data.json().then(function (data) {
+            DATA = data;
             ReactDOM.render(<CalendarDays
                 month={date.getMonth()}
                 year={date.getFullYear()}
@@ -61,5 +63,12 @@ window.addEventListener('load', function () {
         DATE = new Date(DATE.setFullYear(Number(this.value)));
         doDayRender(DATE);
         setDate(DATE);
+    });
+    window.addEventListener('resize', function () {
+        ReactDOM.render(<CalendarDays
+            month={DATE.getMonth()}
+            year={DATE.getFullYear()}
+            events={JSON.stringify(DATA)}
+        />, document.querySelector('#calendar-root .day-area'));
     });
 });

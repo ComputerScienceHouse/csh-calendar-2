@@ -18,19 +18,96 @@ function condition(c, t, f) {
     }
 }
 
+function timestr(hours, minutes) {
+    if (hours == 12) {
+        return hours.toString() + condition(minutes != 0, ':' + condition(minutes < 10, '0', '') + minutes.toString(), '') + ' PM';
+    }
+    if (hours == 0) {
+        return "12" + condition(minutes != 0, ':' + condition(minutes < 10, '0', '') + minutes.toString(), '') + ' AM';
+    }
+    if (hours > 12) {
+        return (hours - 12).toString() + condition(minutes != 0, ':' + condition(minutes < 10, '0', '') + minutes.toString(), '') + ' PM';
+    } else {
+        return hours.toString() + condition(minutes != 0, ':' + condition(minutes < 10, '0', '') + minutes.toString(), '') + ' AM';
+    }
+}
+
+function Event(props) {
+    // year, month, day, data
+    var event = props.data;
+    var classes = ['event'];
+    if (event.allDay) {
+        classes.push('all-day-event');
+    }
+    if (event.days.length > 1) {
+        classes.push('multi-day-event');classes.push('shadow-small');
+    }
+    if (event.days.length > 1 && props.year == event.days[0].year && props.month + 1 == event.days[0].month && props.day == event.days[0].day) {
+        classes.push('multi-start');
+    }
+    if (event.days.length > 1 && props.year == event.days[event.days.length - 1].year && props.month + 1 == event.days[event.days.length - 1].month && props.day == event.days[event.days.length - 1].day) {
+        classes.push('multi-end');
+    }
+    var title = condition(event.allDay, '', condition(event.days.length > 1 && !(props.year == event.days[0].year && props.month + 1 == event.days[0].month && props.day == event.days[0].day), '', timestr(event.start.expanded.hour, event.start.expanded.minute) + ' - ')) + event.summary;
+    return React.createElement(
+        'span',
+        { className: classes.join(' '), 'data-id': event.id, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 56
+            },
+            __self: this
+        },
+        React.createElement(
+            'span',
+            { className: 'arrow-start material-icons', __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 57
+                },
+                __self: this
+            },
+            'chevron_left'
+        ),
+        React.createElement(
+            'span',
+            { className: 'event-title', __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 58
+                },
+                __self: this
+            },
+            title,
+            React.createElement('span', { className: 'overflow-shroud', __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 58
+                },
+                __self: this
+            })
+        ),
+        React.createElement(
+            'span',
+            { className: 'arrow-end material-icons', __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 59
+                },
+                __self: this
+            },
+            'chevron_right'
+        )
+    );
+}
+
 function Day(props) {
-    // year, month, day, events
+    // year, month, day, events, dayHeight
     if (!props.events) {
         var events = [];
     } else {
         var events = JSON.parse(props.events);
     }
-    console.log(events, props.day);
     var maxDays = daysInMonth(props.month, props.year);
     if (props.day < 1 || props.day > maxDays) {
         return React.createElement('td', { className: 'day buffer', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 28
+                lineNumber: 72
             },
             __self: this
         });
@@ -38,11 +115,82 @@ function Day(props) {
         var currentDate = new Date(props.year, props.month, props.day);
         var today = new Date(Date.now());
         today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        var event_elements = [];
+        var finalEvent_elements = [];
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+            for (var _iterator = events[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                e = _step.value;
+
+                var eobj = React.createElement(Event, {
+                    year: props.year,
+                    month: props.month,
+                    day: props.day,
+                    data: e,
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 83
+                    },
+                    __self: this
+                });
+                if (e.allDay || e.days.length > 1) {
+                    finalEvent_elements.push(eobj);
+                } else {
+                    event_elements.push(eobj);
+                }
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+            for (var _iterator2 = event_elements[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                e = _step2.value;
+
+                finalEvent_elements.push(e);
+            }
+        } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                    _iterator2.return();
+                }
+            } finally {
+                if (_didIteratorError2) {
+                    throw _iteratorError2;
+                }
+            }
+        }
+
+        var original_length = finalEvent_elements.length;
+        if (finalEvent_elements.length * 20 > props.dayHeight - 20) {
+            finalEvent_elements = finalEvent_elements.slice(0, Math.floor(props.dayHeight / 20) - 2);
+        }
         return React.createElement(
             'td',
-            { className: 'day' + condition(currentDate.getFullYear() == today.getFullYear() && currentDate.getMonth() == today.getMonth() && currentDate.getDate() == today.getDate(), ' today', '') + condition(props.day < today.getDate() && currentDate.getMonth() == today.getMonth() && currentDate.getFullYear() == today.getFullYear(), ' past', ''), date: currentDate.getTime(), day: currentDate.getDate(), __source: {
+            { className: 'day' + condition(currentDate.getFullYear() == today.getFullYear() && currentDate.getMonth() == today.getMonth() && currentDate.getDate() == today.getDate(), ' today', '') + condition(props.day < today.getDate() && currentDate.getMonth() == today.getMonth() && currentDate.getFullYear() == today.getFullYear(), ' past', '') + condition(original_length > finalEvent_elements.length, ' incomplete', ''), date: currentDate.getTime(), day: currentDate.getDate(), __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 37
+                    lineNumber: 104
                 },
                 __self: this
             },
@@ -50,7 +198,7 @@ function Day(props) {
                 'span',
                 { className: 'day-number', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 46
+                        lineNumber: 115
                     },
                     __self: this
                 },
@@ -59,7 +207,7 @@ function Day(props) {
                     {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 46
+                            lineNumber: 115
                         },
                         __self: this
                     },
@@ -70,11 +218,33 @@ function Day(props) {
                 'span',
                 { className: 'day-name', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 47
+                        lineNumber: 116
                     },
                     __self: this
                 },
                 DAYS[currentDate.getDay()]
+            ),
+            React.createElement(
+                'div',
+                { className: 'day-events', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 117
+                    },
+                    __self: this
+                },
+                finalEvent_elements,
+                React.createElement(
+                    'span',
+                    { className: 'incomplete-number', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 119
+                        },
+                        __self: this
+                    },
+                    '+',
+                    original_length - finalEvent_elements.length,
+                    ' more.'
+                )
             )
         );
     }
@@ -89,6 +259,12 @@ function CalendarDays(props) {
     var numRows = Math.ceil((firstDayWeekDay + days) / 7);
     var calendarRows = [];
 
+    if (window.innerWidth <= 1100) {
+        var dayHeight = 115;
+    } else {
+        var dayHeight = Math.floor((window.innerHeight * 0.95 - 88) / numRows) - 45;
+    }
+
     var currentDay = -firstDayWeekDay + 1;
     for (var row = 0; row < numRows; row++) {
         var rowItems = [];
@@ -98,9 +274,10 @@ function CalendarDays(props) {
                 month: props.month,
                 day: currentDay,
                 events: JSON.stringify(events[currentDay]),
+                dayHeight: dayHeight,
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 65
+                    lineNumber: 144
                 },
                 __self: this
             }));
@@ -113,7 +290,7 @@ function CalendarDays(props) {
             'tr',
             { style: calRowStyle, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 76
+                    lineNumber: 156
                 },
                 __self: this
             },
@@ -126,7 +303,7 @@ function CalendarDays(props) {
         'table',
         { className: 'day-table desktop', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 83
+                lineNumber: 163
             },
             __self: this
         },
@@ -135,7 +312,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 84
+                    lineNumber: 164
                 },
                 __self: this
             },
@@ -150,7 +327,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 93
+                    lineNumber: 173
                 },
                 __self: this
             },
@@ -159,9 +336,10 @@ function CalendarDays(props) {
                 month: props.month,
                 day: day,
                 events: JSON.stringify(events[day]),
+                dayHeight: 115,
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 94
+                    lineNumber: 174
                 },
                 __self: this
             })
@@ -171,7 +349,7 @@ function CalendarDays(props) {
         'table',
         { className: 'day-table mobile', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 104
+                lineNumber: 185
             },
             __self: this
         },
@@ -180,7 +358,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 105
+                    lineNumber: 186
                 },
                 __self: this
             },

@@ -29,6 +29,25 @@ function timestr(hours, minutes) {
     }
 }
 
+function MaterialValue(props) { // icon, value, title, heightOverride
+    if (props.heightOverride) {
+        var style = {height: props.heightOverride};
+    } else {
+        var style = {};
+    }
+    return <div className="material-value" title={props.title}>
+        <span className="material-icons">{props.icon}</span>
+        <div className="value" style={style}><span>{props.value}</span></div>
+    </div>;
+}
+
+function EventView(props) { // event
+    var e = props.event;
+    return <div className="event-view view">
+        <MaterialValue icon="event" value={e.summary} title="Event Title"/>
+    </div>;
+}
+
 function handle_event_clicked(e) {
     if (e.target.className == 'event') {
         var eid = e.target.dataset.id;
@@ -38,6 +57,8 @@ function handle_event_clicked(e) {
     fetch('/events/'+eid).then(function (data) {
         data.json().then(function (jdata) {
             console.log(jdata);
+            ReactDOM.render(<EventView event={jdata} />, document.querySelector('.view-root > .view-area'));
+            document.querySelector('.view-root').classList.add('active');
         });
     }, function () {alert('Fetching event with ID '+eid+' failed.')});
 }

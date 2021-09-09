@@ -71,4 +71,7 @@ window.addEventListener('load', function () {
             events={JSON.stringify(DATA)}
         />, document.querySelector('#calendar-root .day-area'));
     });
+    document.querySelector('.view-root .close-button').addEventListener('click', function () {
+        document.querySelector('.view-root').classList.remove('active');
+    });
 });

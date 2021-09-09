@@ -32,6 +32,74 @@ function timestr(hours, minutes) {
     }
 }
 
+function MaterialValue(props) {
+    // icon, value, title, heightOverride
+    if (props.heightOverride) {
+        var style = { height: props.heightOverride };
+    } else {
+        var style = {};
+    }
+    return React.createElement(
+        'div',
+        { className: 'material-value', title: props.title, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 38
+            },
+            __self: this
+        },
+        React.createElement(
+            'span',
+            { className: 'material-icons', __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 39
+                },
+                __self: this
+            },
+            props.icon
+        ),
+        React.createElement(
+            'div',
+            { className: 'value', style: style, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 40
+                },
+                __self: this
+            },
+            React.createElement(
+                'span',
+                {
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 40
+                    },
+                    __self: this
+                },
+                props.value
+            )
+        )
+    );
+}
+
+function EventView(props) {
+    // event
+    var e = props.event;
+    return React.createElement(
+        'div',
+        { className: 'event-view view', __source: {
+                fileName: _jsxFileName,
+                lineNumber: 46
+            },
+            __self: this
+        },
+        React.createElement(MaterialValue, { icon: 'event', value: e.summary, title: 'Event Title', __source: {
+                fileName: _jsxFileName,
+                lineNumber: 47
+            },
+            __self: this
+        })
+    );
+}
+
 function handle_event_clicked(e) {
     if (e.target.className == 'event') {
         var eid = e.target.dataset.id;
@@ -41,6 +109,13 @@ function handle_event_clicked(e) {
     fetch('/events/' + eid).then(function (data) {
         data.json().then(function (jdata) {
             console.log(jdata);
+            ReactDOM.render(React.createElement(EventView, { event: jdata, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 60
+                },
+                __self: this
+            }), document.querySelector('.view-root > .view-area'));
+            document.querySelector('.view-root').classList.add('active');
         });
     }, function () {
         alert('Fetching event with ID ' + eid + ' failed.');
@@ -68,7 +143,7 @@ function Event(props) {
         'span',
         { className: classes.join(' '), 'data-id': event.id, onClick: handle_event_clicked, title: event.summary, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 77
+                lineNumber: 98
             },
             __self: this
         },
@@ -76,7 +151,7 @@ function Event(props) {
             'span',
             { className: 'arrow-start material-icons', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 78
+                    lineNumber: 99
                 },
                 __self: this
             },
@@ -86,14 +161,14 @@ function Event(props) {
             'span',
             { className: 'event-title', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 79
+                    lineNumber: 100
                 },
                 __self: this
             },
             title,
             React.createElement('span', { className: 'overflow-shroud', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 79
+                    lineNumber: 100
                 },
                 __self: this
             })
@@ -102,7 +177,7 @@ function Event(props) {
             'span',
             { className: 'arrow-end material-icons', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 80
+                    lineNumber: 101
                 },
                 __self: this
             },
@@ -122,7 +197,7 @@ function Day(props) {
     if (props.day < 1 || props.day > maxDays) {
         return React.createElement('td', { className: 'day buffer', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 93
+                lineNumber: 114
             },
             __self: this
         });
@@ -147,7 +222,7 @@ function Day(props) {
                     data: e,
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 104
+                        lineNumber: 125
                     },
                     __self: this
                 });
@@ -205,7 +280,7 @@ function Day(props) {
             'td',
             { className: 'day' + condition(currentDate.getFullYear() == today.getFullYear() && currentDate.getMonth() == today.getMonth() && currentDate.getDate() == today.getDate(), ' today', '') + condition(props.day < today.getDate() && currentDate.getMonth() == today.getMonth() && currentDate.getFullYear() == today.getFullYear(), ' past', '') + condition(original_length > finalEvent_elements.length, ' incomplete', ''), date: currentDate.getTime(), day: currentDate.getDate(), __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 125
+                    lineNumber: 146
                 },
                 __self: this
             },
@@ -213,7 +288,7 @@ function Day(props) {
                 'span',
                 { className: 'day-number', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 136
+                        lineNumber: 157
                     },
                     __self: this
                 },
@@ -222,7 +297,7 @@ function Day(props) {
                     {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 136
+                            lineNumber: 157
                         },
                         __self: this
                     },
@@ -233,7 +308,7 @@ function Day(props) {
                 'span',
                 { className: 'day-name', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 137
+                        lineNumber: 158
                     },
                     __self: this
                 },
@@ -243,7 +318,7 @@ function Day(props) {
                 'div',
                 { className: 'day-events', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 138
+                        lineNumber: 159
                     },
                     __self: this
                 },
@@ -252,7 +327,7 @@ function Day(props) {
                     'span',
                     { className: 'incomplete-number', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 140
+                            lineNumber: 161
                         },
                         __self: this
                     },
@@ -292,7 +367,7 @@ function CalendarDays(props) {
                 dayHeight: dayHeight,
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 165
+                    lineNumber: 186
                 },
                 __self: this
             }));
@@ -305,7 +380,7 @@ function CalendarDays(props) {
             'tr',
             { style: calRowStyle, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 177
+                    lineNumber: 198
                 },
                 __self: this
             },
@@ -318,7 +393,7 @@ function CalendarDays(props) {
         'table',
         { className: 'day-table desktop', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 184
+                lineNumber: 205
             },
             __self: this
         },
@@ -327,7 +402,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 185
+                    lineNumber: 206
                 },
                 __self: this
             },
@@ -342,7 +417,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 194
+                    lineNumber: 215
                 },
                 __self: this
             },
@@ -354,7 +429,7 @@ function CalendarDays(props) {
                 dayHeight: 115,
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 195
+                    lineNumber: 216
                 },
                 __self: this
             })
@@ -364,7 +439,7 @@ function CalendarDays(props) {
         'table',
         { className: 'day-table mobile', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 206
+                lineNumber: 227
             },
             __self: this
         },
@@ -373,7 +448,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 207
+                    lineNumber: 228
                 },
                 __self: this
             },

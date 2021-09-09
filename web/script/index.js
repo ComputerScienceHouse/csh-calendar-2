@@ -69,4 +69,7 @@ window.addEventListener('load', function () {
             __self: this
         }), document.querySelector('#calendar-root .day-area'));
     });
+    document.querySelector('.view-root .close-button').addEventListener('click', function () {
+        document.querySelector('.view-root').classList.remove('active');
+    });
 });

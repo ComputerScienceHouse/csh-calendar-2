@@ -79,7 +79,6 @@ async def get_events_day(year: int, month: int, day: int):
 
 @app.get('/events/{eid}') # Get single event by ID
 async def get_event_by_id(eid: str, response: Response):
-    print(eid)
     event = mongo_collection.find_one({'id': eid})
     if event:
         del event['_id']

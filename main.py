@@ -7,7 +7,7 @@ import threading
 import time
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 import uvicorn
 import os
 
@@ -78,10 +78,14 @@ async def get_events_day(year: int, month: int, day: int):
     return events
 
 @app.get('/events/{eid}') # Get single event by ID
-async def get_event_by_id(eid: str):
+async def get_event_by_id(eid: str, response: Response):
+    print(eid)
     event = mongo_collection.find_one({'id': eid})
-    del event['_id']
-    return event
+    if event:
+        del event['_id']
+        return event
+    response.status_code = 404
+    return {}
 
 @app.get('/')
 async def get_index():

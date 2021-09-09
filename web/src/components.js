@@ -29,6 +29,19 @@ function timestr(hours, minutes) {
     }
 }
 
+function handle_event_clicked(e) {
+    if (e.target.className == 'event') {
+        var eid = e.target.dataset.id;
+    } else {
+        var eid = e.target.parentElement.dataset.id;
+    }
+    fetch('/events/'+eid).then(function (data) {
+        data.json().then(function (jdata) {
+            console.log(jdata);
+        });
+    }, function () {alert('Fetching event with ID '+eid+' failed.')});
+}
+
 function Event(props) { // year, month, day, data
     var event = props.data;
     var classes = ['event'];
@@ -52,8 +65,16 @@ function Event(props) { // year, month, day, data
                 props.day == event.days[0].day
             ), '', timestr(event.start.expanded.hour, event.start.expanded.minute) + ' - '
         )
-    ) + event.summary;
-    return (<span className={classes.join(' ')} data-id={event.id}>
+    ) + event.summary + condition(
+        event.allDay, '', condition(
+            event.days.length > 1 && (
+                props.year == event.days[event.days.length - 1].year &&
+                props.month + 1 == event.days[event.days.length - 1].month &&
+                props.day == event.days[event.days.length - 1].day
+            ), ' - ' + timestr(event.end.expanded.hour, event.end.expanded.minute), ''
+        )
+    );
+    return (<span className={classes.join(' ')} data-id={event.id} onClick={handle_event_clicked} title={event.summary}>
         <span className="arrow-start material-icons">chevron_left</span>
         <span className="event-title">{title}<span className="overflow-shroud"></span></span>
         <span className="arrow-end material-icons">chevron_right</span>

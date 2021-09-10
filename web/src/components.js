@@ -15,6 +15,15 @@ function condition(c, t, f) {
     }
 }
 
+function zero(n) {
+    var v = n.toString();
+    if (v.length == 1) {
+        return '0'+v;
+    } else {
+        return v;
+    }
+}
+
 function timestr(hours, minutes) {
     if (hours == 12) {
         return hours.toString() + condition(minutes != 0, ':' + condition(minutes < 10, '0', '') + minutes.toString(), '') + ' PM';
@@ -29,22 +38,64 @@ function timestr(hours, minutes) {
     }
 }
 
-function MaterialValue(props) { // icon, value, title, heightOverride
-    if (props.heightOverride) {
-        var style = {height: props.heightOverride};
+function MaterialValue(props) { // icon, value, title, styleOverride, isLink
+    if (props.styleOverride) {
+        var style = props.styleOverride;
     } else {
         var style = {};
     }
-    return <div className="material-value" title={props.title}>
-        <span className="material-icons">{props.icon}</span>
-        <div className="value" style={style}><span>{props.value}</span></div>
-    </div>;
+    if (props.isLink) {
+        style.cursor = 'pointer';
+        return <div className="material-value" title={props.title}>
+            <span className="material-icons">{props.icon}</span>
+            <div className="value" style={style}><a href={props.value}>{props.value}</a></div>
+        </div>;
+    } else {
+        return <div className="material-value" title={props.title}>
+            <span className="material-icons">{props.icon}</span>
+            <div className="value" style={style}>{props.value}</div>
+        </div>;
+    }
+    
 }
 
 function EventView(props) { // event
     var e = props.event;
+    var end = new Date(e.end.expanded.year, e.end.expanded.month-1, e.end.expanded.date);
+    if (e.end.expanded.hour <= 2) {
+        end.setDate(end.getDate() - 1);
+    }
+    var event_time = (
+        zero(e.start.expanded.month) + '/' + zero(e.start.expanded.date) + '/' + e.start.expanded.year +
+        condition(
+            e.allDay,
+            '', ' at ' + timestr(e.start.expanded.hour, e.start.expanded.minute)
+        ) + condition(
+            e.days.length == 1,
+            condition(
+                e.allDay,
+                ' (All Day)', ' - ' + timestr(e.end.expanded.hour, e.end.expanded.minute)
+            ),
+            condition(
+                e.allDay,
+                ' - ' + zero(end.getMonth() + 1) + '/' + zero(end.getDate()) + '/' + end.getFullYear(),
+                ' - ' + zero(end.getMonth() + 1) + '/' + zero(end.getDate()) + '/' + end.getFullYear() +
+                    ' at ' + timestr(e.end.expanded.hour, e.end.expanded.minute)
+            )
+        )
+    );
     return <div className="event-view view">
         <MaterialValue icon="event" value={e.summary} title="Event Title"/>
+        <MaterialValue icon="schedule" value={event_time} title="Event Time"/>
+        <MaterialValue icon="room" value={condition(!e.location, 'None Specified', e.location)} title="Event Location"/>
+        <MaterialValue icon="article" value={condition(!e.description, 'None Specified', e.description)} title="Event Description" styleOverride={{
+            height: "calc(95vh - (6 * 52px) - 35px)",
+            "min-height": "220px",
+            "white-space": "normal"
+        }} />
+        <MaterialValue icon="link" value={e.htmlLink} title="Event Link" isLink={true} />
+        <MaterialValue icon="person" value={e.creator.email} title="Creator Email" />
+        <MaterialValue icon="label" value={e.tags.join(', ')} title="Creator Email" />
     </div>;
 }
 

@@ -99,7 +99,8 @@ if __name__ == '__main__':
         mongo_collection,
         timezone=CONFIG['timezone'], 
         days_back=CONFIG['recordDaysBack'],
-        day_cutoff=CONFIG['dayCutoffHour']
+        day_cutoff=CONFIG['dayCutoffHour'],
+        tags=CONFIG['tags']
     )
 
     # Launch cache update thread

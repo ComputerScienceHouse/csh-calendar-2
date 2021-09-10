@@ -5,7 +5,7 @@ import pytz
 import time, hashlib
 
 class Calendar:
-    def __init__(self, credentials_file, calendar, collection, timezone='US/Eastern', days_back=50, day_cutoff=2):
+    def __init__(self, credentials_file, calendar, collection, timezone='US/Eastern', days_back=50, day_cutoff=2, tags={}):
         SCOPES = ['https://www.googleapis.com/auth/calendar']
         SERVICE_ACCOUNT_FILE = credentials_file
 
@@ -17,7 +17,7 @@ class Calendar:
         self.days_back = days_back
         self.collection = collection
         self.cutoff = day_cutoff
-        print(self.collection.name)
+        self.tags = tags
     
     def load_events_to_mongodb(self):
         calendar = self.service.events().list(
@@ -101,6 +101,11 @@ class Calendar:
                 if expanded_event['end']['expanded']['hour'] <= self.cutoff and len(expanded_event['days']):
                     del expanded_event['days'][len(expanded_event['days']) - 1]
             expanded_event['cycleId'] = cycleid
+            expanded_event['tags'] = [tag for tag in self.tags.keys() if any([
+                any(
+                    [expanded_event[key['key']].lower() in test.lower() or test.lower() in expanded_event[key['key']].lower() for test in key['tests']]
+                ) for key in self.tags[tag]
+            ])]
             self.collection.replace_one({'id': event['id']}, expanded_event, upsert=True)
         self.collection.delete_many({'cycleId': {'$not': {'$eq': cycleid}}})
         

@@ -521,19 +521,66 @@ body {
 .view-root .close-button:hover {
     opacity: 0.6;
 }
-.view-root .view-area .view {
-    position: absolute;
-    top: 0px;
-    left: 10%;
-    display: inline-block;
-    width: 80%;
-    height: 100%;
-    overflow: auto;
-    box-sizing: border-box;
-    padding: 20px;
-    background-color: var(--blite);
-    -webkit-box-shadow: 0px 0px 10px 0px #A2A2A2; 
-    box-shadow: 0px 0px 10px 0px #A2A2A2;
+@media screen and (min-width: 701px) {
+    .view-root .view-area .view {
+        position: absolute;
+        top: 0px;
+        left: 10%;
+        display: inline-block;
+        width: 80%;
+        height: 100%;
+        overflow: auto;
+        box-sizing: border-box;
+        padding: 20px;
+        background-color: var(--blite);
+        -webkit-box-shadow: 0px 0px 10px 0px #A2A2A2; 
+        box-shadow: 0px 0px 10px 0px #A2A2A2;
+    }
+    .view-root .view-area .view.event-view .material-value .value {
+        position: relative;
+        margin-left: 32px;
+        display: inline-block;
+        height: 32px;
+        width: calc(100% - 32px);
+        border-radius: 5px;
+        background-color: var(--b);
+        font-size: 16px;
+        padding: 8px;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        white-space: nowrap;
+    }
+}
+@media screen and (max-width: 700px) {
+    .view-root .view-area .view {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        box-sizing: border-box;
+        padding: 5px;
+        padding-top: 20px;
+        background-color: var(--blite);
+        -webkit-box-shadow: 0px 0px 10px 0px #A2A2A2; 
+        box-shadow: 0px 0px 10px 0px #A2A2A2;
+    }
+    .view-root .view-area .view.event-view .material-value .value {
+        position: relative;
+        margin-left: 32px;
+        display: inline-block;
+        height: 32px;
+        width: calc(100% - 32px);
+        border-radius: 5px;
+        background-color: var(--b);
+        font-size: 14px;
+        padding: 9px;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        white-space: nowrap;
+    }
 }
 
 .view-root .view-area .view.event-view .material-value {
@@ -541,36 +588,18 @@ body {
     display: inline-block;
     width: calc(100% - 40px);
     margin-bottom: 10px;
-    height: 32px;
+    height: fit-content;
     box-sizing: border-box;
+}
+.view-root .view-area .view.event-view .material-value:last-child {
+    margin-bottom: 0px;
 }
 .view-root .view-area .view.event-view .material-value .material-icons {
     position: absolute;
-    top: 50%;
+    top: calc(50% - 4px);
     left: 0px;
     transform: translate(0, -50%);
     opacity: 0.5;
     user-select: none;
     -moz-user-select: none;
-}
-.view-root .view-area .view.event-view .material-value .value {
-    position: absolute;
-    top: 0px;
-    left: 32px;
-    display: inline-block;
-    height: 100%;
-    width: calc(100% - 32px);
-    border-radius: 5px;
-    background-color: var(--b);
-    font-size: 16px;
-}
-.view-root .view-area .view.event-view .material-value .value span {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translate(0, -50%);
-    display: inline-block;
-    height: fit-content;
-    width: fit-content;
-    max-width: calc(100% - 20px);
 }

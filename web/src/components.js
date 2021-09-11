@@ -41,19 +41,25 @@ function timestr(hours, minutes) {
 function MaterialValue(props) { // icon, value, title, styleOverride, isLink
     if (props.styleOverride) {
         var style = props.styleOverride;
+        if (props.value.length == 0) {
+            var exclass = ' empty';
+        } else {
+            var exclass = '';
+        }
     } else {
         var style = {};
+        var exclass = '';
     }
     if (props.isLink) {
         style.cursor = 'pointer';
         return <div className="material-value" title={props.title}>
             <span className="material-icons">{props.icon}</span>
-            <div className="value" style={style}><a href={props.value}>{props.value}</a></div>
+            <div className="value" style={style}><a href={props.value}>{props.value}</a>{condition(exclass.length > 0, <span className="empty-indicator">{'[ EMPTY ]'}</span>, <span></span>)}</div>
         </div>;
     } else {
         return <div className="material-value" title={props.title}>
             <span className="material-icons">{props.icon}</span>
-            <div className="value" style={style}>{props.value}</div>
+            <div className="value" style={style}>{props.value}{condition(exclass.length > 0, <span className="empty-indicator">{'[ EMPTY ]'}</span>, <span></span>)}</div>
         </div>;
     }
     
@@ -88,7 +94,7 @@ function EventView(props) { // event
         <MaterialValue icon="event" value={e.summary} title="Event Title"/>
         <MaterialValue icon="schedule" value={event_time} title="Event Time"/>
         <MaterialValue icon="room" value={condition(!e.location, 'None Specified', e.location)} title="Event Location"/>
-        <MaterialValue icon="article" value={condition(!e.description, 'None Specified', e.description)} title="Event Description" styleOverride={{
+        <MaterialValue icon="article" value={condition(!e.description, '', e.description)} title="Event Description" styleOverride={{
             height: "calc(95vh - (6 * 52px) - 35px)",
             "min-height": "220px",
             "white-space": "normal"

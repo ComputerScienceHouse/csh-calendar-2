@@ -45,8 +45,14 @@ function MaterialValue(props) {
     // icon, value, title, styleOverride, isLink
     if (props.styleOverride) {
         var style = props.styleOverride;
+        if (props.value.length == 0) {
+            var exclass = ' empty';
+        } else {
+            var exclass = '';
+        }
     } else {
         var style = {};
+        var exclass = '';
     }
     if (props.isLink) {
         style.cursor = 'pointer';
@@ -54,7 +60,7 @@ function MaterialValue(props) {
             'div',
             { className: 'material-value', title: props.title, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 49
+                    lineNumber: 55
                 },
                 __self: this
             },
@@ -62,7 +68,7 @@ function MaterialValue(props) {
                 'span',
                 { className: 'material-icons', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 50
+                        lineNumber: 56
                     },
                     __self: this
                 },
@@ -72,7 +78,7 @@ function MaterialValue(props) {
                 'div',
                 { className: 'value', style: style, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 51
+                        lineNumber: 57
                     },
                     __self: this
                 },
@@ -80,12 +86,28 @@ function MaterialValue(props) {
                     'a',
                     { href: props.value, __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 51
+                            lineNumber: 57
                         },
                         __self: this
                     },
                     props.value
-                )
+                ),
+                condition(exclass.length > 0, React.createElement(
+                    'span',
+                    { className: 'empty-indicator', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 57
+                        },
+                        __self: this
+                    },
+                    '[ EMPTY ]'
+                ), React.createElement('span', {
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 57
+                    },
+                    __self: this
+                }))
             )
         );
     } else {
@@ -93,7 +115,7 @@ function MaterialValue(props) {
             'div',
             { className: 'material-value', title: props.title, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 54
+                    lineNumber: 60
                 },
                 __self: this
             },
@@ -101,7 +123,7 @@ function MaterialValue(props) {
                 'span',
                 { className: 'material-icons', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 55
+                        lineNumber: 61
                     },
                     __self: this
                 },
@@ -111,11 +133,27 @@ function MaterialValue(props) {
                 'div',
                 { className: 'value', style: style, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 56
+                        lineNumber: 62
                     },
                     __self: this
                 },
-                props.value
+                props.value,
+                condition(exclass.length > 0, React.createElement(
+                    'span',
+                    { className: 'empty-indicator', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 62
+                        },
+                        __self: this
+                    },
+                    '[ EMPTY ]'
+                ), React.createElement('span', {
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 62
+                    },
+                    __self: this
+                }))
             )
         );
     }
@@ -133,53 +171,53 @@ function EventView(props) {
         'div',
         { className: 'event-view view', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 87
+                lineNumber: 93
             },
             __self: this
         },
         React.createElement(MaterialValue, { icon: 'event', value: e.summary, title: 'Event Title', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 88
+                lineNumber: 94
             },
             __self: this
         }),
         React.createElement(MaterialValue, { icon: 'schedule', value: event_time, title: 'Event Time', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 89
+                lineNumber: 95
             },
             __self: this
         }),
         React.createElement(MaterialValue, { icon: 'room', value: condition(!e.location, 'None Specified', e.location), title: 'Event Location', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 90
+                lineNumber: 96
             },
             __self: this
         }),
-        React.createElement(MaterialValue, { icon: 'article', value: condition(!e.description, 'None Specified', e.description), title: 'Event Description', styleOverride: {
+        React.createElement(MaterialValue, { icon: 'article', value: condition(!e.description, '', e.description), title: 'Event Description', styleOverride: {
                 height: "calc(95vh - (6 * 52px) - 35px)",
                 "min-height": "220px",
                 "white-space": "normal"
             }, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 91
+                lineNumber: 97
             },
             __self: this
         }),
         React.createElement(MaterialValue, { icon: 'link', value: e.htmlLink, title: 'Event Link', isLink: true, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 96
+                lineNumber: 102
             },
             __self: this
         }),
         React.createElement(MaterialValue, { icon: 'person', value: e.creator.email, title: 'Creator Email', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 97
+                lineNumber: 103
             },
             __self: this
         }),
         React.createElement(MaterialValue, { icon: 'label', value: e.tags.join(', '), title: 'Creator Email', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 98
+                lineNumber: 104
             },
             __self: this
         })
@@ -197,7 +235,7 @@ function handle_event_clicked(e) {
             console.log(jdata);
             ReactDOM.render(React.createElement(EventView, { event: jdata, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 111
+                    lineNumber: 117
                 },
                 __self: this
             }), document.querySelector('.view-root > .view-area'));
@@ -229,7 +267,7 @@ function Event(props) {
         'span',
         { className: classes.join(' '), 'data-id': event.id, onClick: handle_event_clicked, title: event.summary, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 149
+                lineNumber: 155
             },
             __self: this
         },
@@ -237,7 +275,7 @@ function Event(props) {
             'span',
             { className: 'arrow-start material-icons', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 150
+                    lineNumber: 156
                 },
                 __self: this
             },
@@ -247,14 +285,14 @@ function Event(props) {
             'span',
             { className: 'event-title', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 151
+                    lineNumber: 157
                 },
                 __self: this
             },
             title,
             React.createElement('span', { className: 'overflow-shroud', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 151
+                    lineNumber: 157
                 },
                 __self: this
             })
@@ -263,7 +301,7 @@ function Event(props) {
             'span',
             { className: 'arrow-end material-icons', __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 152
+                    lineNumber: 158
                 },
                 __self: this
             },
@@ -283,7 +321,7 @@ function Day(props) {
     if (props.day < 1 || props.day > maxDays) {
         return React.createElement('td', { className: 'day buffer', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 165
+                lineNumber: 171
             },
             __self: this
         });
@@ -308,7 +346,7 @@ function Day(props) {
                     data: e,
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 176
+                        lineNumber: 182
                     },
                     __self: this
                 });
@@ -366,7 +404,7 @@ function Day(props) {
             'td',
             { className: 'day' + condition(currentDate.getFullYear() == today.getFullYear() && currentDate.getMonth() == today.getMonth() && currentDate.getDate() == today.getDate(), ' today', '') + condition(props.day < today.getDate() && currentDate.getMonth() == today.getMonth() && currentDate.getFullYear() == today.getFullYear(), ' past', '') + condition(original_length > finalEvent_elements.length, ' incomplete', ''), date: currentDate.getTime(), day: currentDate.getDate(), __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 197
+                    lineNumber: 203
                 },
                 __self: this
             },
@@ -374,7 +412,7 @@ function Day(props) {
                 'span',
                 { className: 'day-number', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 208
+                        lineNumber: 214
                     },
                     __self: this
                 },
@@ -383,7 +421,7 @@ function Day(props) {
                     {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 208
+                            lineNumber: 214
                         },
                         __self: this
                     },
@@ -394,7 +432,7 @@ function Day(props) {
                 'span',
                 { className: 'day-name', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 209
+                        lineNumber: 215
                     },
                     __self: this
                 },
@@ -404,7 +442,7 @@ function Day(props) {
                 'div',
                 { className: 'day-events', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 210
+                        lineNumber: 216
                     },
                     __self: this
                 },
@@ -413,7 +451,7 @@ function Day(props) {
                     'span',
                     { className: 'incomplete-number', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 212
+                            lineNumber: 218
                         },
                         __self: this
                     },
@@ -453,7 +491,7 @@ function CalendarDays(props) {
                 dayHeight: dayHeight,
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 237
+                    lineNumber: 243
                 },
                 __self: this
             }));
@@ -466,7 +504,7 @@ function CalendarDays(props) {
             'tr',
             { style: calRowStyle, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 249
+                    lineNumber: 255
                 },
                 __self: this
             },
@@ -479,7 +517,7 @@ function CalendarDays(props) {
         'table',
         { className: 'day-table desktop', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 256
+                lineNumber: 262
             },
             __self: this
         },
@@ -488,7 +526,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 257
+                    lineNumber: 263
                 },
                 __self: this
             },
@@ -503,7 +541,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 266
+                    lineNumber: 272
                 },
                 __self: this
             },
@@ -515,7 +553,7 @@ function CalendarDays(props) {
                 dayHeight: 115,
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 267
+                    lineNumber: 273
                 },
                 __self: this
             })
@@ -525,7 +563,7 @@ function CalendarDays(props) {
         'table',
         { className: 'day-table mobile', __source: {
                 fileName: _jsxFileName,
-                lineNumber: 278
+                lineNumber: 284
             },
             __self: this
         },
@@ -534,7 +572,7 @@ function CalendarDays(props) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 279
+                    lineNumber: 285
                 },
                 __self: this
             },

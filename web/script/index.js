@@ -43,6 +43,7 @@ window.addEventListener('load', function () {
         DATE = new Date(DATE.setMonth(MONTHS.indexOf(this.value)));
         doDayRender(DATE);
         setDate(DATE);
+        document.querySelector('.view-root').classList.remove('active');
     });
     document.querySelector('.date-input-year').addEventListener('change', function () {
         if (isNaN(Number(this.value))) {
@@ -56,6 +57,7 @@ window.addEventListener('load', function () {
         DATE = new Date(DATE.setFullYear(Number(this.value)));
         doDayRender(DATE);
         setDate(DATE);
+        document.querySelector('.view-root').classList.remove('active');
     });
     window.addEventListener('resize', function () {
         ReactDOM.render(React.createElement(CalendarDays, {
@@ -64,7 +66,7 @@ window.addEventListener('load', function () {
             events: JSON.stringify(DATA),
             __source: {
                 fileName: _jsxFileName,
-                lineNumber: 68
+                lineNumber: 70
             },
             __self: this
         }), document.querySelector('#calendar-root .day-area'));

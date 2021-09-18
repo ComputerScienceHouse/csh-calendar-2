@@ -70,12 +70,20 @@ async def get_events(year: int, month: int):
     events_sorted = {i: sorted(events_sorted[i], key=lambda event: event['start']['timestamp']) for i in events_sorted.keys()}
     return events_sorted
 
-@app.get('/events/{year}/{month}/{day}') # Get events on one day
-async def get_events_day(year: int, month: int, day: int):
-    events = list(mongo_collection.find({'start.expanded.year': year, 'start.expanded.month': month, 'start.expanded.date': day}))
+@app.get('/events/{year}/{month}/{day_num}') # Get events on one day
+async def get_events_day(year: int, month: int, day_num: int):
+    events = list(mongo_collection.find({'start.expanded.year': year, 'start.expanded.month': month}))
+    events_sorted = {}
     for e in events:
         del e['_id']
-    return events
+        for day in e['days']:
+            if day['year'] == year and day['month'] == month:
+                if day['day'] in events_sorted.keys():
+                    events_sorted[day['day']].append(e)
+                else:
+                    events_sorted[day['day']] = [e]
+    events_sorted = {i: sorted(events_sorted[i], key=lambda event: event['start']['timestamp']) for i in events_sorted.keys()}
+    return events_sorted[day_num]
 
 @app.get('/events/{eid}') # Get single event by ID
 async def get_event_by_id(eid: str, response: Response):

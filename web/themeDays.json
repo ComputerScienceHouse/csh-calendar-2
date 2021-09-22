@@ -1,0 +1,62 @@
+{
+    "trans_day_of_visibility": {
+        "date": {
+            "month": 3,
+            "day": 31
+        },
+        "theme": {
+            "primary": {
+                "light": "ffeeff",
+                "normal": "f8bbd0",
+                "dark": "c48b9f",
+                "text": "000000"
+            },
+            "secondary": {
+                "light": "c3fdff",
+                "normal": "90caf9",
+                "dark": "5d99c6",
+                "text": "000000"
+            }
+        }
+    },
+    "ace_visibility_day": {
+        "date": {
+            "month": 4,
+            "day": 6
+        },
+        "theme": {
+            "primary": {
+                "light": "c158dc",
+                "normal": "8e24aa",
+                "dark": "5c007a",
+                "text": "ffffff"
+            },
+            "secondary": {
+                "light": "ffffff",
+                "normal": "fafafa",
+                "dark": "c7c7c7",
+                "text": "000000"
+            }
+        }
+    },
+    "agender_visibility_day": {
+        "date": {
+            "month": 5,
+            "day": 19
+        },
+        "theme": {
+            "primary": {
+                "light": "bef67a",
+                "normal": "8bc34a",
+                "dark": "5a9216",
+                "text": "ffffff"
+            },
+            "secondary": {
+                "light": "ffffff",
+                "normal": "fafafa",
+                "dark": "c7c7c7",
+                "text": "000000"
+            }
+        }
+    }
+}

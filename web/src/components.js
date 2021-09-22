@@ -420,7 +420,14 @@ function SingleDayView(props) {
     return (
         <div className="day-view view">
             <div className="date-view">
-                <span>{(props.date.getMonth()+1) + '/' + props.date.getDate() + '/' + props.date.getFullYear()}</span>
+                <span>
+                    {props.date.getMonth() +
+                        1 +
+                        "/" +
+                        props.date.getDate() +
+                        "/" +
+                        props.date.getFullYear()}
+                </span>
             </div>
             <div className="all-day-events">
                 {allDayEvents.length > 0 ? (

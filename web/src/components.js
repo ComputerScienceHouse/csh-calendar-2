@@ -419,6 +419,9 @@ function SingleDayView(props) {
     console.log(dayEvents);
     return (
         <div className="day-view view">
+            <div className="date-view">
+                <span>{(props.date.getMonth()+1) + '/' + props.date.getDate() + '/' + props.date.getFullYear()}</span>
+            </div>
             <div className="all-day-events">
                 {allDayEvents.length > 0 ? (
                     allDayEvents.map(function (e) {
@@ -439,9 +442,9 @@ function SingleDayView(props) {
                     height:
                         allDayEvents.length > 0
                             ? "calc(100% - " +
-                              (40 * allDayEvents.length + 15) +
+                              (40 * allDayEvents.length + 63) +
                               "px)"
-                            : "calc(100% - 44px)",
+                            : "calc(100% - 95px)",
                 }}
             >
                 <div className="view-main">

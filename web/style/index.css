@@ -707,6 +707,14 @@ body {
     opacity: 0.5;
 }
 
+.view-root .view.day-view .view-main {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    width: 100%;
+    height: fit-content;
+}
 .view-root .view.day-view .events {
     position: relative;
     display: inline-block;
@@ -721,6 +729,10 @@ body {
     display: inline-block;
     width: 100%;
     height: 128px;
+    margin-top: -5px;
+}
+.view-root .view.day-view .events .hours .hour:first-child {
+    margin-top: none;
 }
 .view-root .view.day-view .events .hours .hour:last-child {
     border-bottom: none;
@@ -733,4 +745,31 @@ body {
     opacity: 0.4;
     user-select: none;
     -moz-user-select: none;
+}
+.view-root .view.day-view .events .event-area {
+    position: absolute;
+    top: 0px;
+    left: 70px;
+    display: inline-block;
+    width: calc(100% - 90px);
+    height: 100%;
+}
+.view-root .view.day-view .events .event-area .timed-event {
+    position: absolute;
+    display: inline-block;
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: var(--b);
+    color: var(--btext);
+    border: 1px solid var(--p);
+    padding: 10px;
+}
+.view-root .view.day-view .events .event-area .timed-event span {
+    display: block;
+    position: relative;
+}
+.view-root .view.day-view .events .event-area .timed-event span.time {
+    opacity: 0.6;
+    font-size: 12px;
 }

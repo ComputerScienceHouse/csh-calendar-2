@@ -296,15 +296,127 @@ function SingleDayEvent_allDay(props) {
     );
 }
 
+function TimedEvent(props) {
+    //event, allevents, index
+    var timeDelta = new Date(
+        props.event.end.timestamp * 1000 - props.event.start.timestamp * 1000
+    );
+    var tstamp = new Date(props.event.start.timestamp * 1000);
+    return (
+        <div
+            className="timed-event shadow-small"
+            style={{
+                width: "calc(" + 100 / props.event.overlap.length + "% - 10px)",
+                height:
+                    128 * timeDelta.getUTCHours() +
+                    (128 / 60) * timeDelta.getUTCMinutes() -
+                    10 +
+                    "px",
+                left:
+                    "calc(" +
+                    (100 /
+                        (props.event.overlap.length == 0
+                            ? 1
+                            : props.event.overlap.length)) *
+                        (function (props) {
+                            for (
+                                var i = 0;
+                                i < props.event.overlap.length;
+                                i++
+                            ) {
+                                if (
+                                    props.event.overlap[i].number == props.index
+                                ) {
+                                    return i;
+                                }
+                            }
+                        })(props) +
+                    "% + 5px)",
+                top:
+                    128 * tstamp.getHours() +
+                    (128 / 60) * tstamp.getMinutes() +
+                    17.5 +
+                    "px",
+            }}
+        >
+            <span className="title">{props.event.summary}</span>
+            <span className="time">
+                {timestr(
+                    props.event.start.expanded.hour,
+                    props.event.start.expanded.minute
+                ) +
+                    " - " +
+                    timestr(
+                        props.event.end.expanded.hour,
+                        props.event.end.expanded.minute
+                    )}
+            </span>
+        </div>
+    );
+}
+
 function SingleDayView(props) {
     // events, date
     console.log(props.events);
     var allDayEvents = [];
+    var dayEvents = [];
     for (e of props.events) {
         if (e.allDay || e.days.length > 1) {
             allDayEvents.push(e);
+        } else {
+            dayEvents.push(e);
         }
     }
+
+    // Giant mega-conditional to figure out if events overlap
+    for (var e = 0; e < dayEvents.length; e++) {
+        dayEvents[e].overlap = [];
+        for (var s = 0; s < dayEvents.length; s++) {
+            if (
+                (dayEvents[e].start.timestamp <= dayEvents[s].start.timestamp &&
+                    dayEvents[e].end.timestamp >= dayEvents[s].end.timestamp) || // Event encompasses check event
+                (dayEvents[e].start.timestamp >= dayEvents[s].start.timestamp &&
+                    dayEvents[e].end.timestamp <= dayEvents[s].end.timestamp) || // Event is encompassed by check event
+                (dayEvents[e].start.timestamp <= dayEvents[s].start.timestamp &&
+                    dayEvents[e].end.timestamp > dayEvents[s].start.timestamp &&
+                    dayEvents[e].end.timestamp <= dayEvents[s].end.timestamp) || // Event starts before check, ends before check
+                (dayEvents[e].end.timestamp >= dayEvents[s].end.timestamp &&
+                    dayEvents[e].start.timestamp < dayEvents[s].end.timestamp &&
+                    dayEvents[e].start.timestamp >=
+                        dayEvents[s].start.timestamp) // Event starts after check, ends after check
+            ) {
+                dayEvents[e].overlap.push({
+                    id: dayEvents[s].id,
+                    number: s,
+                    encompass:
+                        dayEvents[e].start.timestamp <=
+                            dayEvents[s].start.timestamp &&
+                        dayEvents[e].end.timestamp >=
+                            dayEvents[s].end.timestamp,
+                    encompassed:
+                        dayEvents[e].start.timestamp >=
+                            dayEvents[s].start.timestamp &&
+                        dayEvents[e].end.timestamp <=
+                            dayEvents[s].end.timestamp,
+                    overlapBefore:
+                        dayEvents[e].start.timestamp <=
+                            dayEvents[s].start.timestamp &&
+                        dayEvents[e].end.timestamp >
+                            dayEvents[s].start.timestamp &&
+                        dayEvents[e].end.timestamp <=
+                            dayEvents[s].end.timestamp,
+                    overlapAfter:
+                        dayEvents[e].end.timestamp >=
+                            dayEvents[s].end.timestamp &&
+                        dayEvents[e].start.timestamp <
+                            dayEvents[s].end.timestamp &&
+                        dayEvents[e].start.timestamp >=
+                            dayEvents[s].start.timestamp,
+                });
+            }
+        }
+    }
+    console.log(dayEvents);
     return (
         <div className="day-view view">
             <div className="all-day-events">
@@ -321,15 +433,34 @@ function SingleDayView(props) {
                     <span className="no-events">No All-Day Events</span>
                 )}
             </div>
-            <div className="events" style={{height: allDayEvents.length > 0 ? 'calc(100% - ' + (40 * allDayEvents.length + 15) + 'px)' : 'calc(100% - 44px)'}}>
-                <div className="hours">
-                    {HOURS.map(function (h) {
-                        return (
-                            <div className="hour">
-                                <span>{h}</span>
-                            </div>
-                        );
-                    })}
+            <div
+                className="events"
+                style={{
+                    height:
+                        allDayEvents.length > 0
+                            ? "calc(100% - " +
+                              (40 * allDayEvents.length + 15) +
+                              "px)"
+                            : "calc(100% - 44px)",
+                }}
+            >
+                <div className="view-main">
+                    <div className="hours">
+                        {HOURS.map(function (h) {
+                            return (
+                                <div className="hour">
+                                    <span>{h}</span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div className="event-area">
+                        {dayEvents.map(function (v, i, a) {
+                            return (
+                                <TimedEvent event={v} allevents={a} index={i} />
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </div>

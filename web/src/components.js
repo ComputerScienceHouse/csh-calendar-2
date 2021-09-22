@@ -186,9 +186,9 @@ function EventView(props) {
                 title="Event Description"
                 styleOverride={{
                     height: "calc(95vh - (6 * 52px) - 35px)",
-                    "min-height": "220px",
-                    "white-space": "normal",
-                    "overflow-y": "auto",
+                    minHeight: "220px",
+                    whiteSpace: "normal",
+                    overflowY: "auto",
                 }}
             />
             <MaterialValue
@@ -211,12 +211,7 @@ function EventView(props) {
     );
 }
 
-function handle_event_clicked(e) {
-    if (e.target.className == "event") {
-        var eid = e.target.dataset.id;
-    } else {
-        var eid = e.target.parentElement.dataset.id;
-    }
+function render_event_view(eid) {
     fetch("/events/" + eid).then(
         function (data) {
             data.json().then(function (jdata) {
@@ -232,6 +227,15 @@ function handle_event_clicked(e) {
             alert("Fetching event with ID " + eid + " failed.");
         }
     );
+}
+
+function handle_event_clicked(e) {
+    if (e.target.className == "event") {
+        var eid = e.target.dataset.id;
+    } else {
+        var eid = e.target.parentElement.dataset.id;
+    }
+    render_event_view(eid);
 }
 
 function SingleDayEvent_allDay(props) {
@@ -261,7 +265,9 @@ function SingleDayEvent_allDay(props) {
                     props.event.days[props.event.days.length - 1].year
                     ? " end"
                     : "")
-            }
+            } eventId={props.event.id} onClick={function (event) {
+                render_event_view(event.target.closest('.event').attributes.eventId.value);
+            }}
         >
             <span className="arrow-start material-icons">chevron_left</span>
             <span className="event-title">
@@ -337,6 +343,8 @@ function TimedEvent(props) {
                     (128 / 60) * tstamp.getMinutes() +
                     17.5 +
                     "px",
+            }}  eventId={props.event.id} onClick={function (event) {
+                render_event_view(event.target.closest('.timed-event').attributes.eventId.value);
             }}
         >
             <span className="title">{props.event.summary}</span>
@@ -613,7 +621,8 @@ function Day(props) {
                     if (
                         e.target.classList.contains("day") ||
                         e.target.classList.contains("day-events") ||
-                        e.target.classList.contains("day-number")
+                        e.target.classList.contains("day-number") ||
+                        e.target.classList.contains("incomplete-number")
                     ) {
                         var dayDate = new Date(
                             Number(

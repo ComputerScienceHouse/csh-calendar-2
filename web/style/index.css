@@ -230,6 +230,9 @@
 #calendar-root .day-area .day-table.desktop tbody tr td .day-name {
     display: none;
 }
+#calendar-root .day-area .day-table.desktop tbody tr td.buffer {
+    background-color: var(--b);
+}
 
 #calendar-root .day-area .day-table.mobile {
     width: calc(100% + 1px);
@@ -270,6 +273,9 @@
     position: relative;
     background-color: var(--blite);
 }
+#calendar-root .day-area .day-table.mobile tbody tr td.buffer {
+    background-color: var(--b);
+}
 #calendar-root .day-area .day-table.mobile tbody tr:first-child td {
     border-top: none;
 }
@@ -306,7 +312,7 @@
     background-color: var(--b);
 }
 .day:not(.buffer) {
-    cursor: ne-resize;
+    cursor: pointer;
 }
 
 .shadow {
@@ -480,6 +486,11 @@ body {
     -moz-user-select: none;
     font-weight: bold;
     opacity: 0.45;
+    text-decoration: solid underline 1px #00000000;
+    transition: text-decoration-color 0.2s;
+}
+.day.incomplete .day-events .incomplete-number:hover {
+    text-decoration: solid underline 1px var(--btext);
 }
 .day .day-events .event:not(.all-day-event):not(.multi-day-event) {
     background-color: var(--blite);
@@ -659,6 +670,10 @@ body {
     margin-bottom: -5px;
     user-select: none;
     -moz-user-select: none;
+    cursor: pointer;
+}
+.all-day-events .event:hover .event-title {
+    text-decoration: solid underline 1px var(--ptext);
 }
 @media screen and (max-width: 700px) {
     .all-day-events .event {
@@ -677,6 +692,8 @@ body {
     width: fit-content;
     height: fit-content;
     white-space: nowrap;
+    transition: text-decoration 0.2s;
+    text-decoration: solid underline 1px #00000000;
 }
 .all-day-events .event .arrow-start {
     position: absolute;
@@ -766,14 +783,20 @@ body {
     color: var(--btext);
     border: 1px solid var(--p);
     padding: 10px;
+    cursor: pointer;
 }
 .view-root .view.day-view .events .event-area .timed-event span {
     display: block;
     position: relative;
+    transition: text-decoration 0.2s;
+    text-decoration: solid underline 1px #00000000;
 }
 .view-root .view.day-view .events .event-area .timed-event span.time {
     opacity: 0.6;
     font-size: 12px;
+}
+.view-root .view.day-view .events .event-area .timed-event:hover span:not(.time) {
+    text-decoration: solid underline 1px var(--btext);
 }
 .view-root .view.day-view .date-view {
     position: relative;

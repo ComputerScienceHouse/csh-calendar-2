@@ -2,3 +2,6 @@ fastapi
 google-api-python-client
 google
 pymongo
+pytz
+aiofiles
+uvicorn

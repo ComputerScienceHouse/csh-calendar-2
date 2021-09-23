@@ -9,7 +9,9 @@
     "recordDaysBack": Days before current date to store events,
     "database": {
         "address": "mongodb://ip:port",
-        "database": "database name"
+        "database": "database name",
+        "username": "username" or null,
+        "password": "password" or null
     },
     "calendarUpdateInterval": Seconds between DB updates,
     "runtime": {

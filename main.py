@@ -38,7 +38,7 @@ if __name__ == '__main__':
     
     # Connect to mongodb instance
     debug(f'Connecting to mongodb at {CONFIG["database"]["address"]}')
-    CLIENT = MongoClient(CONFIG["database"]["address"])
+    CLIENT = MongoClient(CONFIG["database"]["address"], username=CONFIG['database']['username'], password=CONFIG['database']['password'])
     mongo_db = CLIENT[CONFIG["database"]["database"]]
     mongo_collection = mongo_db['events']
 else:
@@ -47,7 +47,7 @@ else:
 
     # Connect to mongodb instance
     debug(f'Connecting to mongodb at {CONFIG["database"]["address"]}')
-    CLIENT = MongoClient(CONFIG["database"]["address"])
+    CLIENT = MongoClient(CONFIG["database"]["address"], username=CONFIG['database']['username'], password=CONFIG['database']['password'])
     mongo_db = CLIENT[CONFIG["database"]["database"]]
     mongo_collection = mongo_db['events']
 

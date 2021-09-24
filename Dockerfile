@@ -7,8 +7,6 @@ RUN pip install -r requirements.txt
 EXPOSE 9999
 
 # Copy CFG, datafiles
-COPY keys keys
-COPY config.json config.json
 COPY web web
 
 # Copy programs

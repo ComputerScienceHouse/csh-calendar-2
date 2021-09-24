@@ -20,9 +20,11 @@ logging.basicConfig(
     style='{'
 )
 
+
 def updateCalendarLoop(calendar: Calendar, delay):
     calendar.load_events_to_mongodb()
     time.sleep(delay)
+
 
 if __name__ == '__main__':
     # Load config file from config.json
@@ -35,10 +37,11 @@ if __name__ == '__main__':
         critical('Failed to load config. Make sure config.json exists.')
         exit(0)
     os.environ['csh-config'] = json.dumps(CONFIG)
-    
+
     # Connect to mongodb instance
     debug(f'Connecting to mongodb at {CONFIG["database"]["address"]}')
-    CLIENT = MongoClient(CONFIG["database"]["address"], username=CONFIG['database']['username'], password=CONFIG['database']['password'])
+    CLIENT = MongoClient(CONFIG["database"]["address"], username=CONFIG['database']
+                         ['username'], password=CONFIG['database']['password'], tls=CONFIG['database']['ssl'])
     mongo_db = CLIENT[CONFIG["database"]["database"]]
     mongo_collection = mongo_db['events']
 else:
@@ -47,7 +50,8 @@ else:
 
     # Connect to mongodb instance
     debug(f'Connecting to mongodb at {CONFIG["database"]["address"]}')
-    CLIENT = MongoClient(CONFIG["database"]["address"], username=CONFIG['database']['username'], password=CONFIG['database']['password'])
+    CLIENT = MongoClient(CONFIG["database"]["address"], username=CONFIG['database']
+                         ['username'], password=CONFIG['database']['password'], tls=CONFIG['database']['ssl'])
     mongo_db = CLIENT[CONFIG["database"]["database"]]
     mongo_collection = mongo_db['events']
 
@@ -55,9 +59,11 @@ app = FastAPI()
 
 app.mount('/static', StaticFiles(directory='web'), 'staticfiles')
 
-@app.get('/events/{year}/{month}') # Get events in one month
+
+@app.get('/events/{year}/{month}')  # Get events in one month
 async def get_events(year: int, month: int):
-    events = list(mongo_collection.find({'start.expanded.year': year, 'start.expanded.month': month}))
+    events = list(mongo_collection.find(
+        {'start.expanded.year': year, 'start.expanded.month': month}))
     events_sorted = {}
     for e in events:
         del e['_id']
@@ -67,12 +73,15 @@ async def get_events(year: int, month: int):
                     events_sorted[day['day']].append(e)
                 else:
                     events_sorted[day['day']] = [e]
-    events_sorted = {i: sorted(events_sorted[i], key=lambda event: event['start']['timestamp']) for i in events_sorted.keys()}
+    events_sorted = {i: sorted(
+        events_sorted[i], key=lambda event: event['start']['timestamp']) for i in events_sorted.keys()}
     return events_sorted
 
-@app.get('/events/{year}/{month}/{day_num}') # Get events on one day
+
+@app.get('/events/{year}/{month}/{day_num}')  # Get events on one day
 async def get_events_day(year: int, month: int, day_num: int):
-    events = list(mongo_collection.find({'start.expanded.year': year, 'start.expanded.month': month}))
+    events = list(mongo_collection.find(
+        {'start.expanded.year': year, 'start.expanded.month': month}))
     events_sorted = {}
     for e in events:
         del e['_id']
@@ -82,10 +91,12 @@ async def get_events_day(year: int, month: int, day_num: int):
                     events_sorted[day['day']].append(e)
                 else:
                     events_sorted[day['day']] = [e]
-    events_sorted = {i: sorted(events_sorted[i], key=lambda event: event['start']['timestamp']) for i in events_sorted.keys()}
+    events_sorted = {i: sorted(
+        events_sorted[i], key=lambda event: event['start']['timestamp']) for i in events_sorted.keys()}
     return events_sorted[day_num]
 
-@app.get('/events/{eid}') # Get single event by ID
+
+@app.get('/events/{eid}')  # Get single event by ID
 async def get_event_by_id(eid: str, response: Response):
     event = mongo_collection.find_one({'id': eid})
     if event:
@@ -93,6 +104,7 @@ async def get_event_by_id(eid: str, response: Response):
         return event
     response.status_code = 404
     return {}
+
 
 @app.get('/')
 async def get_index():
@@ -102,10 +114,10 @@ if __name__ == '__main__':
     # Load calendar and start update thread
     debug('Loading Calendar object.')
     calendar = Calendar(
-        CONFIG['serviceAccountCredentials'], 
-        CONFIG['calendarId'], 
+        CONFIG['serviceAccountCredentials'],
+        CONFIG['calendarId'],
         mongo_collection,
-        timezone=CONFIG['timezone'], 
+        timezone=CONFIG['timezone'],
         days_back=CONFIG['recordDaysBack'],
         day_cutoff=CONFIG['dayCutoffHour'],
         tags=CONFIG['tags']
@@ -114,14 +126,15 @@ if __name__ == '__main__':
     # Launch cache update thread
     info('Starting update thread.')
     threading.Thread(
-        name='update-calendar-loop', 
-        target=updateCalendarLoop, 
+        name='update-calendar-loop',
+        target=updateCalendarLoop,
         args=[
-            calendar, 
+            calendar,
             CONFIG['calendarUpdateInterval']
-        ], 
+        ],
         daemon=True
     ).start()
 
     info('Starting FastAPI server...')
-    uvicorn.run('main:app', host=CONFIG['runtime']['host'], port=CONFIG['runtime']['port'], access_log=False)
+    uvicorn.run('main:app', host=CONFIG['runtime']['host'],
+                port=CONFIG['runtime']['port'], access_log=False)

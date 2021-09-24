@@ -1,7 +1,7 @@
 fastapi
 google-api-python-client
 google
-pymongo
+pymongo[tls]
 pytz
 aiofiles
 uvicorn

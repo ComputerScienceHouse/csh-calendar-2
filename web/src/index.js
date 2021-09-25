@@ -27,7 +27,10 @@ function setTheme(date, name) {
             } else if (date) {
                 var theme = false;
                 for (var t of Object.keys(data)) {
-                    if (date.getMonth() + 1 == data[t].date.month && date.getDate() == data[t].date.day) {
+                    if (
+                        date.getMonth() + 1 == data[t].date.month &&
+                        date.getDate() == data[t].date.day
+                    ) {
                         var theme = data[t];
                     }
                 }
@@ -35,20 +38,24 @@ function setTheme(date, name) {
                     return;
                 }
             }
-            console.log('Loading theme:', theme);
-            var style = document.getElementById('theme-edits');
-            style.appendChild(document.createTextNode([
-                ':root {',
-                '--pdark: #'+theme.theme.primary.dark+';',
-                '--p: #'+theme.theme.primary.normal+';',
-                '--plite: #'+theme.theme.primary.light+';',
-                '--ptext: #'+theme.theme.primary.text+';',
-                '--bdark: #'+theme.theme.secondary.dark+';',
-                '--b: #'+theme.theme.secondary.normal+';',
-                '--blite: #'+theme.theme.secondary.light+';',
-                '--btext: #'+theme.theme.secondary.text+';',
-                '}'
-            ].join('')))
+            console.log("Loading theme:", theme);
+            var style = document.getElementById("theme-edits");
+            style.appendChild(
+                document.createTextNode(
+                    [
+                        ":root {",
+                        "--pdark: #" + theme.theme.primary.dark + ";",
+                        "--p: #" + theme.theme.primary.normal + ";",
+                        "--plite: #" + theme.theme.primary.light + ";",
+                        "--ptext: #" + theme.theme.primary.text + ";",
+                        "--bdark: #" + theme.theme.secondary.dark + ";",
+                        "--b: #" + theme.theme.secondary.normal + ";",
+                        "--blite: #" + theme.theme.secondary.light + ";",
+                        "--btext: #" + theme.theme.secondary.text + ";",
+                        "}",
+                    ].join("")
+                )
+            );
         });
     });
 }
@@ -71,7 +78,7 @@ function doDayRender(date) {
                     />,
                     document.querySelector("#calendar-root .day-area")
                 );
-                document.querySelector('.mobile .day.today').scrollIntoView();
+                document.querySelector(".mobile .day.today").scrollIntoView();
             });
         }
     );
@@ -135,5 +142,11 @@ window.addEventListener("load", function () {
         .querySelector(".view-root .close-button")
         .addEventListener("click", function () {
             document.querySelector(".view-root").classList.remove("active");
+        });
+    window
+        .addEventListener("keydown", function (e) {
+            if (e.key == "Escape") {
+                document.querySelector(".view-root").classList.remove("active");
+            }
         });
 });

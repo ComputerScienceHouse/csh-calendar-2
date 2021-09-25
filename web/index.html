@@ -1,85 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSH Events</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CSH Events</title>
 
-    <!-- External Resources -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"> <!-- Material Icons -->
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-    <!-- React -->
+        <!-- External Resources -->
+        <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet"
+        />
+        <!-- Material Icons -->
+        <script
+            src="https://unpkg.com/react@17/umd/react.development.js"
+            crossorigin
+        ></script>
+        <script
+            src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+            crossorigin
+        ></script>
+        <!-- React -->
 
-    <!-- Internal Resources -->
-    <script src="static/script/components.js"></script>
-    <script src="static/script/index.js"></script>
-    <link rel="stylesheet" href="static/style/index.css">
-    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
+        <!-- Internal Resources -->
+        <script src="static/script/components.js"></script>
+        <script src="static/script/index.js"></script>
+        <link rel="stylesheet" href="static/style/index.css" />
+        <link
+            rel="shortcut icon"
+            href="static/favicon.ico"
+            type="image/x-icon"
+        />
 
-    <style id="theme-edits">
-        
-    </style>
-</head>
-<body>
-    <div id="topbar-root">
-        <div class="top-bar shadow">
-            <img src="static/index.svg" alt="CSH Logo">
-            <span class="title">Events</span>
-            <div class="date-input">
-                <select class="date-input-month">
-                    <option value="january">Jan.</option>
-                    <option value="february">Feb.</option>
-                    <option value="march">Mar.</option>
-                    <option value="april">Apr.</option>
-                    <option value="may">May</option>
-                    <option value="june">Jun.</option>
-                    <option value="july">Jul.</option>
-                    <option value="august">Aug.</option>
-                    <option value="september">Sep.</option>
-                    <option value="october">Oct.</option>
-                    <option value="november">Nov.</option>
-                    <option value="december">Dec.</option>
-                </select>
-                <input class='date-input-year'>
+        <style id="theme-edits"></style>
+    </head>
+    <body>
+        <div id="topbar-root">
+            <div class="top-bar shadow">
+                <img src="static/index.svg" alt="CSH Logo" />
+                <span class="title">Events</span>
+                <div class="date-input">
+                    <select class="date-input-month">
+                        <option value="january">Jan.</option>
+                        <option value="february">Feb.</option>
+                        <option value="march">Mar.</option>
+                        <option value="april">Apr.</option>
+                        <option value="may">May</option>
+                        <option value="june">Jun.</option>
+                        <option value="july">Jul.</option>
+                        <option value="august">Aug.</option>
+                        <option value="september">Sep.</option>
+                        <option value="october">Oct.</option>
+                        <option value="november">Nov.</option>
+                        <option value="december">Dec.</option>
+                    </select>
+                    <input class="date-input-year" />
+                    <button
+                        class="add-calendar"
+                        onclick="window.open('https://calendar.google.com/calendar/u/0/r?cid=rti648k5hv7j3ae3a3rum8potk@group.calendar.google.com', '_blank');"
+                    >
+                        <span class="material-icons">calendar_today</span>
+                        <span class="material-icons add">add</span>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    <div id='calendar-root' class='shadow-small'>
-        <div class='day-names'>
-            <div class='day-name'>
-                <span>Sunday</span>
-            </div><div class='day-name'>
-                <span>Monday</span>
-            </div><div class='day-name'>
-                <span>Tuesday</span>
-            </div><div class='day-name'>
-                <span>Wednesday</span>
-            </div><div class='day-name'>
-                <span>Thursday</span>
-            </div><div class='day-name'>
-                <span>Friday</span>
-            </div><div class='day-name'>
-                <span>Saturday</span>
+        <div id="calendar-root" class="shadow-small">
+            <div class="day-names">
+                <div class="day-name">
+                    <span>Sunday</span>
+                </div><div class="day-name">
+                    <span>Monday</span>
+                </div><div class="day-name">
+                    <span>Tuesday</span>
+                </div><div class="day-name">
+                    <span>Wednesday</span>
+                </div><div class="day-name">
+                    <span>Thursday</span>
+                </div><div class="day-name">
+                    <span>Friday</span>
+                </div><div class="day-name">
+                    <span>Saturday</span>
+                </div>
             </div>
+            <div class="day-area"></div>
         </div>
-        <div class='day-area'>
-            
+        <button class="nav-button next shadow-small">
+            <span class="material-icons">chevron_right</span>
+        </button>
+        <button class="nav-button previous shadow-small">
+            <span class="material-icons">chevron_left</span>
+        </button>
+        <div class="view-root">
+            <span class="material-icons close-button">close</span>
+            <div class="view-area"></div>
         </div>
-    </div>
-    <button class='nav-button next shadow-small'>
-        <span class="material-icons">chevron_right</span>
-    </button>
-    <button class='nav-button previous shadow-small'>
-        <span class="material-icons">chevron_left</span>
-    </button>
-    <div class="view-root">
-        <span class='material-icons close-button'>close</span>
-        <div class='view-area'>
-            
-        </div>
-    </div>
-</body>
+    </body>
 </html>

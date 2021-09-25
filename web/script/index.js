@@ -84,20 +84,17 @@ window.addEventListener("load", function () {
         DATE = new Date(DATE.setMonth(DATE.getMonth() + 1));
         doDayRender(DATE);
         setDate(DATE);
-        document.querySelector('.mobile .day.today').scrollIntoView();
     });
     document.querySelector(".nav-button.previous").addEventListener("click", function () {
         DATE = new Date(DATE.setMonth(DATE.getMonth() - 1));
         doDayRender(DATE);
         setDate(DATE);
-        document.querySelector('.mobile .day.today').scrollIntoView();
     });
     document.querySelector(".date-input-month").addEventListener("change", function () {
         DATE = new Date(DATE.setMonth(MONTHS.indexOf(this.value)));
         doDayRender(DATE);
         setDate(DATE);
         document.querySelector(".view-root").classList.remove("active");
-        document.querySelector('.mobile .day.today').scrollIntoView();
     });
     document.querySelector(".date-input-year").addEventListener("change", function () {
         if (isNaN(Number(this.value))) {
@@ -112,7 +109,6 @@ window.addEventListener("load", function () {
         doDayRender(DATE);
         setDate(DATE);
         document.querySelector(".view-root").classList.remove("active");
-        document.querySelector('.mobile .day.today').scrollIntoView();
     });
     window.addEventListener("resize", function () {
         ReactDOM.render(React.createElement(CalendarDays, {
@@ -121,7 +117,7 @@ window.addEventListener("load", function () {
             events: JSON.stringify(DATA),
             __source: {
                 fileName: _jsxFileName,
-                lineNumber: 130
+                lineNumber: 126
             },
             __self: this
         }), document.querySelector("#calendar-root .day-area"));

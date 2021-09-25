@@ -81,7 +81,7 @@
         display: inline-block;
     }
     #calendar-root {
-        height: calc((100vh - 48px) - 98px);
+        height: calc((100% - 48px) - 98px);
     }
     #calendar-root .day-area {
         position: absolute;

@@ -87,7 +87,6 @@ window.addEventListener("load", function () {
             DATE = new Date(DATE.setMonth(DATE.getMonth() + 1));
             doDayRender(DATE);
             setDate(DATE);
-            document.querySelector('.mobile .day.today').scrollIntoView();
         });
     document
         .querySelector(".nav-button.previous")
@@ -95,7 +94,6 @@ window.addEventListener("load", function () {
             DATE = new Date(DATE.setMonth(DATE.getMonth() - 1));
             doDayRender(DATE);
             setDate(DATE);
-            document.querySelector('.mobile .day.today').scrollIntoView();
         });
     document
         .querySelector(".date-input-month")
@@ -104,7 +102,6 @@ window.addEventListener("load", function () {
             doDayRender(DATE);
             setDate(DATE);
             document.querySelector(".view-root").classList.remove("active");
-            document.querySelector('.mobile .day.today').scrollIntoView();
         });
     document
         .querySelector(".date-input-year")
@@ -123,7 +120,6 @@ window.addEventListener("load", function () {
             doDayRender(DATE);
             setDate(DATE);
             document.querySelector(".view-root").classList.remove("active");
-            document.querySelector('.mobile .day.today').scrollIntoView();
         });
     window.addEventListener("resize", function () {
         ReactDOM.render(

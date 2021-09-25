@@ -8,6 +8,8 @@ EXPOSE 9999
 
 # Copy CFG, datafiles
 COPY web web
+#COPY config.json config.json
+#COPY keys keys
 
 # Copy programs
 COPY main.py main.py

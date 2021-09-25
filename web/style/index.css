@@ -508,7 +508,7 @@ body {
     left: 10px;
     display: inline-block;
     width: calc(100vw - 20px);
-    height: calc(95vh - 10px);
+    height: calc(95% - 10px);
     background-color: var(--blite);
     -webkit-box-shadow: 0px 0px 10px 0px #A2A2A2; 
     box-shadow: 0px 0px 10px 0px #A2A2A2;

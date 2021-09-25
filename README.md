@@ -15,7 +15,21 @@ More appealing &amp; functional version of calendar.csh.rit.edu
 - Support for multiple calendars
 - Integration with [BetterVent](https://github.com/ComputerScienceHouse/BetterVent)
 - Integration with [Jumpstart](https://github.com/Dr-N0/Jumpstart)
-  
+
+## Development
+- Install Python and Javascript dependencies.
+```shell
+pip install -r requirements.txt
+cd web
+npm install
+npx webpack --mode production
+```
+- If you only want to make changes to the backend, just run it alone: `python main.py`
+- If you also want to work on the frontend with live-reloading run `npx webpack serve` in a different shell.
+  - **NOTE:** Webpack will proxy calls to `/events` back to port 8080 for you. If you are running the backend
+on a different port, you will need to change the proxy port in `web/webpack.config.js`.
+
+
 ## Documentation
 - [API Docs](API.md)
 - [Configuration Docs](CONFIGURATION.md)

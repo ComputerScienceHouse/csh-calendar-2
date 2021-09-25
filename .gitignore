@@ -131,3 +131,4 @@ dmypy.json
 config.json
 keys/
 node_modules/
+web/dist/

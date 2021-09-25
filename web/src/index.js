@@ -1,3 +1,11 @@
+import React from 'react';
+import ReactDOM from "react-dom";
+import { CalendarDays } from "./components.js"
+import themeDays from "../themeDays.json";
+import "../style/index.css";
+import "../index.svg";
+
+
 var DATE = new Date(Date.now());
 var MONTHS = [
     "january",
@@ -16,48 +24,45 @@ var MONTHS = [
 var DATA = {};
 
 function setTheme(date, name) {
-    fetch("static/themeDays.json").then(function (response) {
-        response.json().then(function (data) {
-            if (name) {
-                if (Object.keys(data).includes(name)) {
-                    var theme = data[name];
-                } else {
-                    return;
-                }
-            } else if (date) {
-                var theme = false;
-                for (var t of Object.keys(data)) {
-                    if (
-                        date.getMonth() + 1 == data[t].date.month &&
-                        date.getDate() == data[t].date.day
-                    ) {
-                        var theme = data[t];
-                    }
-                }
-                if (!theme) {
-                    return;
-                }
+    if (name) {
+        if (Object.keys(themeDays).includes(name)) {
+            var theme = themeDays[name];
+        } else {
+            return;
+        }
+    } else if (date) {
+        var theme = false;
+        for (var t of Object.keys(themeDays)) {
+            if (
+                date.getMonth() + 1 == themeDays[t].date.month &&
+                date.getDate() == themeDays[t].date.day
+            ) {
+                var theme = themeDays[t];
             }
-            console.log("Loading theme:", theme);
-            var style = document.getElementById("theme-edits");
-            style.appendChild(
-                document.createTextNode(
-                    [
-                        ":root {",
-                        "--pdark: #" + theme.theme.primary.dark + ";",
-                        "--p: #" + theme.theme.primary.normal + ";",
-                        "--plite: #" + theme.theme.primary.light + ";",
-                        "--ptext: #" + theme.theme.primary.text + ";",
-                        "--bdark: #" + theme.theme.secondary.dark + ";",
-                        "--b: #" + theme.theme.secondary.normal + ";",
-                        "--blite: #" + theme.theme.secondary.light + ";",
-                        "--btext: #" + theme.theme.secondary.text + ";",
-                        "}",
-                    ].join("")
-                )
-            );
-        });
-    });
+        }
+        if (!theme) {
+            return;
+        }
+    }
+    console.log("Loading theme:", theme);
+    var style = document.getElementById("theme-edits");
+    style.appendChild(
+        document.createTextNode(
+            [
+                ":root {",
+                "--pdark: #" + theme.theme.primary.dark + ";",
+                "--p: #" + theme.theme.primary.normal + ";",
+                "--plite: #" + theme.theme.primary.light + ";",
+                "--ptext: #" + theme.theme.primary.text + ";",
+                "--bdark: #" + theme.theme.secondary.dark + ";",
+                "--b: #" + theme.theme.secondary.normal + ";",
+                "--blite: #" + theme.theme.secondary.light + ";",
+                "--btext: #" + theme.theme.secondary.text + ";",
+                "}",
+            ].join("")
+        )
+    );
+
 }
 
 function setDate(date) {

@@ -8,6 +8,7 @@ import time
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, Response
+from fastapi.exceptions import HTTPException
 import uvicorn
 import os
 
@@ -56,8 +57,10 @@ else:
     mongo_collection = mongo_db['events']
 
 app = FastAPI()
+frontend_is_built = os.path.exists("web/dist/index.html")
 
-app.mount('/static', StaticFiles(directory='web'), 'staticfiles')
+if frontend_is_built:
+    app.mount('/static', StaticFiles(directory='web/dist/static'), 'staticfiles')
 
 
 @app.get('/events/{year}/{month}')  # Get events in one month
@@ -108,7 +111,20 @@ async def get_event_by_id(eid: str, response: Response):
 
 @app.get('/')
 async def get_index():
-    return FileResponse(os.path.join('web', 'index.html'))
+    if not frontend_is_built:
+        msg = (
+            "Frontend hasn't been built yet, please run: "
+            "'cd web && npx webpack --mode production' "
+            "and restart the application!"
+        )
+        warning(msg)
+        raise HTTPException(status_code=500, detail=msg)
+    return FileResponse(os.path.join('web', 'dist', 'index.html'))
+
+
+@app.get('/favicon.ico')
+async def get_index():
+    return FileResponse(os.path.join('web', 'dist', 'favicon.ico'))
 
 if __name__ == '__main__':
     # Load calendar and start update thread

@@ -279,10 +279,10 @@
 #calendar-root .day-area .day-table.mobile tbody tr:first-child td {
     border-top: none;
 }
-#calendar-root .day-area .day-table.mobile tbody tr td.past {
+/*#calendar-root .day-area .day-table.mobile tbody tr td.past {
     display: none;
     height: 0px;
-}
+}*/
 
 .day.today .day-number {
     background-color: var(--p);

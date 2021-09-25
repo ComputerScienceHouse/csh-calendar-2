@@ -18,4 +18,4 @@ More appealing &amp; functional version of calendar.csh.rit.edu
   
 ## Documentation
 - [API Docs](API.md)
-- [Configuration Docs](CONFIGURATION.md)
+- [Configuration Docs](CONFIGURATION.md)e

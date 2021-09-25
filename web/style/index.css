@@ -1,13 +1,13 @@
 :root {
-    --pdark: #7c0052;
-    --p: #b0197e;
-    --plite: #e555ad;
-    --ptext: #ffffff;
+    --pdark: 124, 0, 82;
+    --p: 176, 25, 126;
+    --plite: 229, 85, 173;
+    --ptext: 255, 255, 255;
 
-    --bdark: #babdbe;
-    --b: #eceff1;
-    --blite: #ffffff;
-    --btext: #000000;
+    --bdark: 186, 189, 190;
+    --b: 236, 239, 241;
+    --blite: 255, 255, 255;
+    --btext: 0, 0, 0;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -27,7 +27,7 @@
     display: inline-block;
     height: 48px;
     width: 100%;
-    background-color: var(--p);
+    background-color: rgb(var(--p));
 }
 .top-bar img {
     position: absolute;
@@ -42,7 +42,7 @@
     top: 55%;
     left: 48px;
     transform: translate(0, -50%);
-    color: var(--ptext);
+    color: rgb(var(--ptext));
     font-size: 20px;
 }
 
@@ -62,14 +62,14 @@
     position: absolute;
     right: 10px;
     top: 10px;
-    color: var(--btext);
+    color: rgb(var(--btext));
     opacity: 0.5;
 }
 .day .day-number {
     position: absolute;
     left: 10px;
     top: 10px;
-    color: var(--btext);
+    color: rgb(var(--btext));
     opacity: 0.5;
 }
 
@@ -101,9 +101,9 @@
         width: 40%;
         height: 48px;
         transform: translate(0, -50%);
-        background-color: var(--b);
+        background-color: rgb(var(--b));
         transition: background-color 0.2s;
-        color: var(--btext);
+        color: rgb(var(--btext));
         font-size: 24px;
         user-select: none;
         -moz-user-select: none;
@@ -153,9 +153,9 @@
         width: 2vw;
         height: 50vh;
         transform: translate(0, -50%);
-        background-color: var(--b);
+        background-color: rgb(var(--b));
         transition: background-color 0.2s;
-        color: var(--btext);
+        color: rgb(var(--btext));
         font-size: 24px;
         user-select: none;
         -moz-user-select: none;
@@ -180,7 +180,7 @@
         display: inline-block;
         height: 24px;
         width: 100%;
-        background-color: var(--p);
+        background-color: rgb(var(--p));
     }
     .desktop-footer .code {
         position: absolute;
@@ -191,14 +191,14 @@
         vertical-align: middle;
     }
     .desktop-footer .code .material-icons {
-        color: var(--ptext);
+        color: rgb(var(--ptext));
         position: absolute;
         top: 50%;
         left: 5px;
         transform: translate(0, -50%);
     }
     .desktop-footer .code a {
-        color: var(--ptext);
+        color: rgb(var(--ptext));
         position: absolute;
         top: 50%;
         left: 32px;
@@ -213,8 +213,8 @@
     display: inline-block;
     width: calc(100% / 7);
     height: 48px;
-    background-color: var(--p);
-    color: var(--ptext);
+    background-color: rgb(var(--p));
+    color: rgb(var(--ptext));
     font-size: 18px;
     margin: 0px;
     box-sizing: border-box;
@@ -258,21 +258,21 @@
     height: 100%;
     margin: 0px;
     box-sizing: border-box;
-    border: 1px solid var(--bdark);
+    border: 1px solid rgb(var(--bdark));
     border-bottom: 0px;
     border-right: 0px;
     position: relative;
     transition: background-color 0.2s;
-    background-color: var(--blite);
+    background-color: rgb(var(--blite));
 }
 #calendar-root .day-area .day-table.desktop tbody tr td:hover {
-    background-color: var(--b);
+    background-color: rgb(var(--b));
 }
 #calendar-root .day-area .day-table.desktop tbody tr td .day-name {
     display: none;
 }
 #calendar-root .day-area .day-table.desktop tbody tr td.buffer {
-    background-color: var(--b);
+    background-color: rgb(var(--b));
 }
 
 #calendar-root .day-area .day-table.mobile {
@@ -308,14 +308,14 @@
     height: 160px;
     margin: 0px;
     box-sizing: border-box;
-    border: 1px solid var(--bdark);
+    border: 1px solid rgb(var(--bdark));
     border-bottom: 0px;
     border-right: 0px;
     position: relative;
-    background-color: var(--blite);
+    background-color: rgb(var(--blite));
 }
 #calendar-root .day-area .day-table.mobile tbody tr td.buffer {
-    background-color: var(--b);
+    background-color: rgb(var(--b));
 }
 #calendar-root .day-area .day-table.mobile tbody tr:first-child td {
     border-top: none;
@@ -326,8 +326,8 @@
 }*/
 
 .day.today .day-number {
-    background-color: var(--p);
-    color: var(--ptext);
+    background-color: rgb(var(--p));
+    color: rgb(var(--ptext));
     border-radius: 50%;
     box-sizing: border-box;
     display: inline-block;
@@ -350,7 +350,7 @@
     transform: translate(-50%, -50%);
 }
 .day.buffer {
-    background-color: var(--b);
+    background-color: rgb(var(--b));
 }
 .day:not(.buffer) {
     cursor: pointer;
@@ -375,7 +375,7 @@ body {
     transform: translate(-50%, -50%);
 }
 .nav-button:hover {
-    background-color: var(--bdark);
+    background-color: rgb(var(--bdark));
 }
 
 .date-input {
@@ -395,8 +395,8 @@ body {
     width: 35%;
     height: 100%;
     border-radius: 5px;
-    background-color: var(--pdark);
-    color: var(--ptext);
+    background-color: rgb(var(--pdark));
+    color: rgb(var(--ptext));
     border: none;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
@@ -413,8 +413,8 @@ body {
     width: calc(65% - 47px);
     height: 100%;
     border-radius: 5px;
-    background-color: var(--pdark);
-    color: var(--ptext);
+    background-color: rgb(var(--pdark));
+    color: rgb(var(--ptext));
     border: none;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
@@ -438,16 +438,16 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-color: var(--p);
+    background-color: rgb(var(--p));
     transition: background-color 0.2s;
-    color: var(--ptext);
+    color: rgb(var(--ptext));
     border: none;
     -webkit-box-shadow: 0px 0px 3px 0px #000000aa; 
     box-shadow: 0px 0px 3px 0px #000000aa;
     cursor: pointer;
 }
 .date-input button:hover {
-    background-color: var(--pdark);
+    background-color: rgb(var(--pdark));
 }
 .date-input button span:not(.add) {
     font-size: 20px;
@@ -478,7 +478,7 @@ body {
     width: 100%;
     height: 18px;
     border-radius: 9px;
-    border: 1px solid var(--bdark);
+    border: 1px solid rgb(var(--bdark));
     font-size: 12px;
     box-sizing: border-box;
     margin: 0px;
@@ -491,14 +491,14 @@ body {
     box-shadow: 0px 0px 3px 0px #A2A2A2a2;
 }
 .day .day-events .event.multi-day-event {
-    background-color: var(--p);
-    color: var(--ptext);
-    border: 1px solid var(--p);
+    background-color: rgb(var(--p));
+    color: rgb(var(--ptext));
+    border: 1px solid rgb(var(--p));
 }
 .day .day-events .event.all-day-event {
-    background-color: var(--p);
-    color: var(--ptext);
-    border: 1px solid var(--p);
+    background-color: rgb(var(--p));
+    color: rgb(var(--ptext));
+    border: 1px solid rgb(var(--p));
 }
 .day .day-events .event .event-title {
     position: absolute;
@@ -519,11 +519,11 @@ body {
     width: 15px;
     height: 100%;
     background: #00000000;
-    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 100%);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
     z-index: 5;
 }
 .day .day-events .event.multi-day-event .event-title .overflow-shroud, .day .day-events .event.all-day-event .event-title .overflow-shroud {
-    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, var(--p) 100%);
+    background: linear-gradient(90deg, rgba(var(--p), 0) 0%, rgb(var(--p)) 100%);
 }
 .day .day-events .event .material-icons {
     display: none;
@@ -565,16 +565,16 @@ body {
     transition: text-decoration-color 0.2s;
 }
 .day.incomplete .day-events .incomplete-number:hover {
-    text-decoration: solid underline 1px var(--btext);
+    text-decoration: solid underline 1px rgb(var(--btext));
 }
 .day .day-events .event:not(.all-day-event):not(.multi-day-event) {
-    background-color: var(--blite);
+    background-color: rgb(var(--blite));
 }
 .day .day-events .event:not(.all-day-event):not(.multi-day-event):nth-child(odd) {
-    background-color: var(--b);
+    background-color: rgb(var(--b));
 }
 .day .day-events .event:not(.all-day-event):not(.multi-day-event):nth-child(odd) .overflow-shroud {
-    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, var(--b) 100%);
+    background: linear-gradient(90deg, rgba(var(--b), 0) 0%, rgb(var(--b)) 100%);
 }
 
 .view-root {
@@ -583,12 +583,12 @@ body {
     left: 10px;
     display: inline-block;
     width: calc(100vw - 20px);
-    height: calc(95% - 10px);
-    background-color: var(--blite);
+    height: calc(100% - 70px);
+    background-color: rgb(var(--blite));
     -webkit-box-shadow: 0px 0px 10px 0px #A2A2A2; 
     box-shadow: 0px 0px 10px 0px #A2A2A2;
     z-index: 5000;
-    border-radius: 0 0 15px 15px;
+    border-radius: 15px;
     transition: bottom 0.5s ease-in-out;
     overflow: auto;
 }
@@ -604,7 +604,7 @@ body {
     height: 100%;
     z-index: 5100;
     box-sizing: border-box;
-    background-color: var(--bdark);
+    background-color: rgb(var(--bdark));
 }
 .view-root .close-button {
     position: absolute;
@@ -630,7 +630,7 @@ body {
         overflow: auto;
         box-sizing: border-box;
         padding: 20px;
-        background-color: var(--blite);
+        background-color: rgb(var(--blite));
         -webkit-box-shadow: 0px 0px 10px 0px #A2A2A2; 
         box-shadow: 0px 0px 10px 0px #A2A2A2;
     }
@@ -641,7 +641,7 @@ body {
         height: 32px;
         width: calc(100% - 32px);
         border-radius: 5px;
-        background-color: var(--b);
+        background-color: rgb(var(--b));
         font-size: 16px;
         padding: 8px;
         box-sizing: border-box;
@@ -662,7 +662,7 @@ body {
         box-sizing: border-box;
         padding: 5px;
         padding-top: 20px;
-        background-color: var(--blite);
+        background-color: rgb(var(--blite));
         -webkit-box-shadow: 0px 0px 10px 0px #A2A2A2; 
         box-shadow: 0px 0px 10px 0px #A2A2A2;
     }
@@ -673,7 +673,7 @@ body {
         height: 32px;
         width: calc(100% - 32px);
         border-radius: 5px;
-        background-color: var(--b);
+        background-color: rgb(var(--b));
         font-size: 14px;
         padding: 9px;
         box-sizing: border-box;
@@ -725,7 +725,7 @@ body {
 .all-day-events {
     position: relative;
     display: inline-block;
-    border-bottom: 1px solid var(--bdark);
+    border-bottom: 1px solid rgb(var(--bdark));
     height: fit-content;
     width: 100%;
     padding: 10px;
@@ -736,8 +736,8 @@ body {
     width: calc(100% - 20px);
     height: 32px;
     border-radius: 16px;
-    background-color: var(--p);
-    color: var(--ptext);
+    background-color: rgb(var(--p));
+    color: rgb(var(--ptext));
     -webkit-box-shadow: 0px 0px 10px 0px #A2A2A2; 
     box-shadow: 0px 0px 10px 0px #A2A2A2;
     margin: none;
@@ -748,7 +748,7 @@ body {
     cursor: pointer;
 }
 .all-day-events .event:hover .event-title {
-    text-decoration: solid underline 1px var(--ptext);
+    text-decoration: solid underline 1px rgb(var(--ptext));
 }
 @media screen and (max-width: 700px) {
     .all-day-events .event {
@@ -797,7 +797,7 @@ body {
     height: fit-content;
     margin-top: 5px;
     text-align: center;
-    color: var(--btext);
+    color: rgb(var(--btext));
     opacity: 0.5;
 }
 
@@ -819,7 +819,7 @@ body {
     position: relative;
     margin: 0px;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--bdark);
+    border-bottom: 1px solid rgb(var(--bdark));
     display: inline-block;
     width: 100%;
     height: 128px;
@@ -835,7 +835,7 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
-    color: var(--btext);
+    color: rgb(var(--btext));
     opacity: 0.4;
     user-select: none;
     -moz-user-select: none;
@@ -854,9 +854,9 @@ body {
     padding: 5px;
     box-sizing: border-box;
     border-radius: 5px;
-    background-color: var(--b);
-    color: var(--btext);
-    border: 1px solid var(--p);
+    background-color: rgb(var(--b));
+    color: rgb(var(--btext));
+    border: 1px solid rgb(var(--p));
     padding: 10px;
     cursor: pointer;
 }
@@ -871,15 +871,15 @@ body {
     font-size: 12px;
 }
 .view-root .view.day-view .events .event-area .timed-event:hover span:not(.time) {
-    text-decoration: solid underline 1px var(--btext);
+    text-decoration: solid underline 1px rgb(var(--btext));
 }
 .view-root .view.day-view .date-view {
     position: relative;
     display: inline-block;
     width: 100%;
     height: 48px;
-    border-bottom: 1px solid var(--bdark);
-    background-color: var(--b);
+    border-bottom: 1px solid rgb(var(--bdark));
+    background-color: rgb(var(--b));
     margin-bottom: -5px;
 }
 .view-root .view.day-view .date-view span {

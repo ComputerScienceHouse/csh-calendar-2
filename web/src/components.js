@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from "react-dom";
+
 function daysInMonth(month, year) {
     // Get number of days in month for display
     return new Date(year, month + 1, 0).getDate();
@@ -571,6 +574,7 @@ function Day(props) {
         );
         var event_elements = [];
         var finalEvent_elements = [];
+        let e;
         for (e of events) {
             var eobj = (
                 <Event
@@ -670,7 +674,7 @@ function Day(props) {
     }
 }
 
-function CalendarDays(props) {
+export function CalendarDays(props) {
     // month, year, events
     var events = JSON.parse(props.events);
     var days = daysInMonth(props.month, props.year);

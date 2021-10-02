@@ -59,6 +59,18 @@ app = FastAPI()
 
 app.mount('/static', StaticFiles(directory='web'), 'staticfiles')
 
+@app.get('/events/upcoming')
+async def get_upcoming(number: int = 25):
+    events = list(mongo_collection.find(
+        {'end.timestamp': {'$gt': time.time()}}))[:number]
+    for e in events:
+        del e['_id']
+        if e['start']['timestamp'] < time.time():
+            e['ongoing'] = True
+        else:
+            e['ongoing'] = False
+
+    return events
 
 @app.get('/events/{year}/{month}')  # Get events in one month
 async def get_events(year: int, month: int):

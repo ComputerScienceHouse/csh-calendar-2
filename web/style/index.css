@@ -486,6 +486,9 @@ body {
     transition: box-shadow 0.2s;
     cursor: pointer;
 }
+.day .day-events .event:last-child {
+    margin-bottom: -10px;
+}
 .day .day-events .event:hover {
     -webkit-box-shadow: 0px 0px 3px 0px #a2a2a2a2; 
     box-shadow: 0px 0px 3px 0px #A2A2A2a2;
@@ -552,6 +555,7 @@ body {
     display: none;
 }
 .day.incomplete .day-events .incomplete-number {
+    position: relative;
     display: inline-block;
     width: 100%;
     height: fit-content;
@@ -563,6 +567,7 @@ body {
     opacity: 0.45;
     text-decoration: solid underline 1px #00000000;
     transition: text-decoration-color 0.2s;
+    margin-top: -100%;
 }
 .day.incomplete .day-events .incomplete-number:hover {
     text-decoration: solid underline 1px var(--btext);

@@ -594,7 +594,7 @@ function Day(props) {
         if (finalEvent_elements.length * 20 > props.dayHeight - 20) {
             finalEvent_elements = finalEvent_elements.slice(
                 0,
-                Math.floor(props.dayHeight / 20) - 2
+                Math.abs(Math.floor(props.dayHeight / 20) - 2) >= 1 ? Math.abs(Math.floor(props.dayHeight / 20) - 2) : 1
             );
         }
         return (
@@ -647,6 +647,9 @@ function Day(props) {
                                         ".view-root > .view-area"
                                     )
                                 );
+                                document.querySelector(
+                                    ".view-root > .view-area"
+                                ).querySelector('.timed-event:first-child').scrollIntoView(true);
                                 document
                                     .querySelector(".view-root")
                                     .classList.add("active");

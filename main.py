@@ -105,7 +105,7 @@ async def get_events_day(year: int, month: int, day_num: int):
                     events_sorted[day['day']] = [e]
     events_sorted = {i: sorted(
         events_sorted[i], key=lambda event: event['start']['timestamp']) for i in events_sorted.keys()}
-    return events_sorted[day_num]
+    return events_sorted.get(day_num, [])
 
 
 @app.get('/events/{eid}')  # Get single event by ID

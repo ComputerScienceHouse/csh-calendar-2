@@ -66,22 +66,25 @@ function setDate(date) {
 }
 
 function doDayRender(date) {
-    fetch("/events/" + date.getFullYear() + "/" + (1 + date.getMonth())).then(
-        function (data) {
-            data.json().then(function (data) {
-                DATA = data;
-                ReactDOM.render(
-                    <CalendarDays
-                        month={date.getMonth()}
-                        year={date.getFullYear()}
-                        events={JSON.stringify(data)}
-                    />,
-                    document.querySelector("#calendar-root .day-area")
-                );
-                document.querySelector(".mobile .day.today").scrollIntoView();
-            });
-        }
-    );
+    fetch("/events/" + date.getFullYear() + "/" + (1 + date.getMonth()), {
+        headers: new Headers({
+            pragma: "no-cache",
+            "cache-control": "no-cache",
+        }),
+    }).then(function (data) {
+        data.json().then(function (data) {
+            DATA = data;
+            ReactDOM.render(
+                <CalendarDays
+                    month={date.getMonth()}
+                    year={date.getFullYear()}
+                    events={JSON.stringify(data)}
+                />,
+                document.querySelector("#calendar-root .day-area")
+            );
+            document.querySelector(".mobile .day.today").scrollIntoView();
+        });
+    });
 }
 
 window.addEventListener("load", function () {
@@ -143,10 +146,9 @@ window.addEventListener("load", function () {
         .addEventListener("click", function () {
             document.querySelector(".view-root").classList.remove("active");
         });
-    window
-        .addEventListener("keydown", function (e) {
-            if (e.key == "Escape") {
-                document.querySelector(".view-root").classList.remove("active");
-            }
-        });
+    window.addEventListener("keydown", function (e) {
+        if (e.key == "Escape") {
+            document.querySelector(".view-root").classList.remove("active");
+        }
+    });
 });

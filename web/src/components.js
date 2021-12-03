@@ -212,7 +212,12 @@ function EventView(props) {
 }
 
 function render_event_view(eid) {
-    fetch("/events/" + eid).then(
+    fetch("/events/" + eid, {
+        headers: new Headers({
+            pragma: "no-cache",
+            "cache-control": "no-cache",
+        }),
+    }).then(
         function (data) {
             data.json().then(function (jdata) {
                 console.log(jdata);
@@ -265,8 +270,12 @@ function SingleDayEvent_allDay(props) {
                     props.event.days[props.event.days.length - 1].year
                     ? " end"
                     : "")
-            } eventId={props.event.id} onClick={function (event) {
-                render_event_view(event.target.closest('.event').attributes.eventId.value);
+            }
+            eventId={props.event.id}
+            onClick={function (event) {
+                render_event_view(
+                    event.target.closest(".event").attributes.eventId.value
+                );
             }}
         >
             <span className="arrow-start material-icons">chevron_left</span>
@@ -343,8 +352,13 @@ function TimedEvent(props) {
                     (128 / 60) * tstamp.getMinutes() +
                     17.5 +
                     "px",
-            }}  eventId={props.event.id} onClick={function (event) {
-                render_event_view(event.target.closest('.timed-event').attributes.eventId.value);
+            }}
+            eventId={props.event.id}
+            onClick={function (event) {
+                render_event_view(
+                    event.target.closest(".timed-event").attributes.eventId
+                        .value
+                );
             }}
         >
             <span className="title">{props.event.summary}</span>
@@ -594,7 +608,9 @@ function Day(props) {
         if (finalEvent_elements.length * 20 > props.dayHeight - 20) {
             finalEvent_elements = finalEvent_elements.slice(
                 0,
-                Math.abs(Math.floor(props.dayHeight / 20) - 2) >= 1 ? Math.abs(Math.floor(props.dayHeight / 20) - 2) : 1
+                Math.abs(Math.floor(props.dayHeight / 20) - 2) >= 1
+                    ? Math.abs(Math.floor(props.dayHeight / 20) - 2)
+                    : 1
             );
         }
         return (
@@ -635,7 +651,13 @@ function Day(props) {
                                 "/" +
                                 (dayDate.getMonth() + 1) +
                                 "/" +
-                                dayDate.getDate()
+                                dayDate.getDate(),
+                            {
+                                headers: new Headers({
+                                    pragma: "no-cache",
+                                    "cache-control": "no-cache",
+                                }),
+                            }
                         ).then(function (response) {
                             response.json().then(function (data) {
                                 ReactDOM.render(
@@ -647,9 +669,10 @@ function Day(props) {
                                         ".view-root > .view-area"
                                     )
                                 );
-                                document.querySelector(
-                                    ".view-root > .view-area"
-                                ).querySelector('.timed-event:first-child').scrollIntoView(true);
+                                document
+                                    .querySelector(".view-root > .view-area")
+                                    .querySelector(".timed-event:first-child")
+                                    .scrollIntoView(true);
                                 document
                                     .querySelector(".view-root")
                                     .classList.add("active");
